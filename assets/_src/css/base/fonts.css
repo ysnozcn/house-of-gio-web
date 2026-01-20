@@ -1,0 +1,27 @@
+/* roboto-300 - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../../fonts/roboto-300.eot");
+  src: url("../../fonts/roboto-300.eot?#iefix") format("embedded-opentype"),
+    url("../../fonts/roboto-300.woff2") format("woff2"),
+    url("../../fonts/roboto-300.woff") format("woff"),
+    url("../../fonts/roboto-300.ttf") format("truetype"),
+    url("../../fonts/roboto-300.svg#Roboto") format("svg");
+}
+
+/* roboto-regular - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../fonts/roboto-regular.eot");
+  src: url("../../fonts/roboto-regular.eot?#iefix") format("embedded-opentype"),
+    url("../../fonts/roboto-regular.woff2") format("woff2"),
+    url("../../fonts/roboto-regular.woff") format("woff"),
+    url("../../fonts/roboto-regular.ttf") format("truetype"),
+    url("../../fonts/roboto-regular.svg#Roboto") format("svg");
+}
