@@ -13,7 +13,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+  margin-bottom: 10px;
 
   label {
     font-size: 14px;
@@ -22,24 +23,23 @@
   }
 
   .form-control {
-    width: 100%;
-    height: 50px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    padding: 0 16px;
-    font-size: 16px;
-    color: #374151;
-    background-color: #fff;
-    transition: border-color 0.3s ease;
-    font-family: inherit;
-
-    &::placeholder {
-      color: #9ca3af;
-    }
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0;
+    color: #fff;
+    padding: 0.5rem 0;
+    height: auto;
+    font-family: $font-primary;
 
     &:focus {
       outline: none;
-      border-color: $color-secondary;
+      border-bottom-color: #fff;
+      box-shadow: none;
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
 
     &.error {
@@ -49,7 +49,7 @@
 
   textarea.form-control {
     height: 150px;
-    padding: 16px;
+    padding: 16px 0;
     resize: none;
   }
 

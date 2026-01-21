@@ -40,8 +40,8 @@ const GLOBAL = {
     GLOBAL.DesktopMenu();
     GLOBAL.Home();
     GLOBAL.Form();
+    GLOBAL.GallerySlider();
     GLOBAL.InvestmentSlider();
-    GLOBAL.Form();
   },
 
   Header: () => {
@@ -88,19 +88,19 @@ const GLOBAL = {
   Home: () => {
     // Intro Section: Initial Load Animation (Scale 2 -> 1)
     gsap.fromTo(
-      ".homepage-intro__bg img",
+      ".hero-intro__bg img",
       { scale: 2 },
       { scale: 1, duration: 2.5, ease: "power2.out" },
     );
 
     // Intro Section: Text Entrance Animation (Opacity 0 -> 1, slightly moving up)
     const introTextElements = [
-      ".homepage-intro__content-top-title-2",
-      ".homepage-intro__content-title",
-      ".homepage-intro__content-bottom-title",
-      ".homepage-intro__content-bottom-text",
-      ".homepage-intro__content-bottom-btn",
-      ".homepage-intro__content-bottom-btn-2",
+      ".hero-intro__content-top-title-2",
+      ".hero-intro__content-title",
+      ".hero-intro__content-bottom-title",
+      ".hero-intro__content-bottom-text",
+      ".hero-intro__content-bottom-btn",
+      ".hero-intro__content-bottom-btn-2",
     ];
 
     gsap.fromTo(
@@ -116,23 +116,30 @@ const GLOBAL = {
       },
     );
 
-    gsap.to(introTextElements, {
-      scrollTrigger: {
-        trigger: "body",
-        start: "60px top",
-        end: "+=400",
-        scrub: 1,
+    gsap.fromTo(
+      introTextElements,
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
       },
-      y: -200,
-      scale: 0.8,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "none",
-      immediateRender: false, // Prevents recording opacity:0 as the start value
-    });
+      {
+        scrollTrigger: {
+          trigger: "body",
+          start: "60px top",
+          end: "+=400",
+          scrub: 1,
+        },
+        y: -200,
+        scale: 0.8,
+        opacity: 0,
+        ease: "none",
+        immediateRender: false,
+      },
+    );
 
     // Intro Section: Scroll Animation (Height decreases)
-    gsap.to(".homepage-intro", {
+    gsap.to(".hero-intro", {
       scrollTrigger: {
         trigger: "body",
         start: "top top",
@@ -228,7 +235,7 @@ const GLOBAL = {
 
     // About Text Section: Text Entrance (Blur + Opacity)
     gsap.fromTo(
-      ".homepage-about-text__body > *",
+      ".section-about-text__body > *",
       { opacity: 0, scale: 1.1, filter: "blur(10px)" },
       {
         opacity: 1,
@@ -238,7 +245,7 @@ const GLOBAL = {
         stagger: 0.15,
         ease: "power2.out",
         scrollTrigger: {
-          trigger: ".homepage-about-text",
+          trigger: ".section-about-text",
           start: "top 70%",
           toggleActions: "play none none reverse",
         },
@@ -316,7 +323,22 @@ const GLOBAL = {
       },
     });
   },
-
+  GallerySlider: () => {
+    const swiper = new Swiper(".gallery-slider", {
+      slidesPerView: 1,
+      loop: true,
+      // effect: "fade",
+      speed: 1000,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".gallery-slider__next",
+        prevEl: ".gallery-slider__prev",
+      },
+    });
+  },
   InvestmentSlider: () => {
     const swiper = new Swiper(".investment-slider", {
       slidesPerView: 1.2,

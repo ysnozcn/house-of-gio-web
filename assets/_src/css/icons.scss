@@ -1,10 +1,10 @@
 @font-face {
     font-family: icon;
-    src: url("../fonts/icon.eot");src: url("../fonts/icon.eot?f2e1f459#iefix") format("embedded-opentype"),
-             url("../fonts/icon.woff2?f2e1f459") format("woff2"),
-             url("../fonts/icon.woff?f2e1f459") format("woff"),
-             url("../fonts/icon.ttf?f2e1f459") format("truetype"),
-             url("../fonts/icon.svg?f2e1f459#icon") format("svg");
+    src: url("../fonts/icon.eot");src: url("../fonts/icon.eot?bbff4290#iefix") format("embedded-opentype"),
+             url("../fonts/icon.woff2?bbff4290") format("woff2"),
+             url("../fonts/icon.woff?bbff4290") format("woff"),
+             url("../fonts/icon.ttf?bbff4290") format("truetype"),
+             url("../fonts/icon.svg?bbff4290#icon") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -45,27 +45,27 @@
     content: "\554e";
 }
 
-.icon-instagram::before {
+.icon-facebook::before {
     content: "\554f";
 }
 
-.icon-linkedin::before {
+.icon-instagram::before {
     content: "\5550";
 }
 
-.icon-product-adjustment::before {
+.icon-linkedin::before {
     content: "\5551";
 }
 
-.icon-product-purity::before {
+.icon-location::before {
     content: "\5552";
 }
 
-.icon-product-size::before {
+.icon-mail::before {
     content: "\5553";
 }
 
-.icon-product-weight::before {
+.icon-phone::before {
     content: "\5554";
 }
 
