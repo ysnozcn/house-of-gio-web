@@ -1,10 +1,10 @@
 @font-face {
     font-family: icon;
-    src: url("../fonts/icon.eot");src: url("../fonts/icon.eot?bbff4290#iefix") format("embedded-opentype"),
-             url("../fonts/icon.woff2?bbff4290") format("woff2"),
-             url("../fonts/icon.woff?bbff4290") format("woff"),
-             url("../fonts/icon.ttf?bbff4290") format("truetype"),
-             url("../fonts/icon.svg?bbff4290#icon") format("svg");
+    src: url("../fonts/icon.eot");src: url("../fonts/icon.eot?69a9b7f6#iefix") format("embedded-opentype"),
+             url("../fonts/icon.woff2?69a9b7f6") format("woff2"),
+             url("../fonts/icon.woff?69a9b7f6") format("woff"),
+             url("../fonts/icon.ttf?69a9b7f6") format("truetype"),
+             url("../fonts/icon.svg?69a9b7f6#icon") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -45,43 +45,47 @@
     content: "\554e";
 }
 
-.icon-facebook::before {
+.icon-close::before {
     content: "\554f";
 }
 
-.icon-instagram::before {
+.icon-facebook::before {
     content: "\5550";
 }
 
-.icon-linkedin::before {
+.icon-instagram::before {
     content: "\5551";
 }
 
-.icon-location::before {
+.icon-linkedin::before {
     content: "\5552";
 }
 
-.icon-mail::before {
+.icon-location::before {
     content: "\5553";
 }
 
-.icon-phone::before {
+.icon-mail::before {
     content: "\5554";
 }
 
-.icon-whatsapp::before {
+.icon-phone::before {
     content: "\5555";
 }
 
-.icon-world::before {
+.icon-whatsapp::before {
     content: "\5556";
 }
 
-.icon-x::before {
+.icon-world::before {
     content: "\5557";
 }
 
-.icon-youtube::before {
+.icon-x::before {
     content: "\5558";
+}
+
+.icon-youtube::before {
+    content: "\5559";
 }
 

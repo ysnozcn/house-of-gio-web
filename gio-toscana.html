@@ -25,14 +25,14 @@
             <div class="desktop-menu__overlay">
               <div class="desktop-menu__container">
                 <div class="desktop-menu__header">
-                  <a href="#" class="desktop-menu__home-link">HOME</a>
+                  <a class="desktop-menu__home-link">HOME</a>
                 </div>
 
                 <nav class="desktop-menu__nav">
                   <div class="desktop-menu__item">
                     <span class="desktop-menu__item-num">01</span>
                     <div class="desktop-menu__item-content">
-                      <a href="#" class="desktop-menu__item-title">GIO ROMA</a>
+                      <a class="desktop-menu__item-title">GIO ROMA</a>
                       <span class="desktop-menu__item-desc"
                         >a Roman loft wrapped in history</span
                       >
@@ -41,9 +41,7 @@
                   <div class="desktop-menu__item">
                     <span class="desktop-menu__item-num">02</span>
                     <div class="desktop-menu__item-content">
-                      <a href="#" class="desktop-menu__item-title"
-                        >GIO TOSCANA</a
-                      >
+                      <a class="desktop-menu__item-title">GIO TOSCANA</a>
                       <span class="desktop-menu__item-desc"
                         >a Tuscan estate of rolling hills and olive trees</span
                       >
@@ -52,7 +50,7 @@
                   <div class="desktop-menu__item">
                     <span class="desktop-menu__item-num">03</span>
                     <div class="desktop-menu__item-content">
-                      <a href="#" class="desktop-menu__item-title">GIO RANCH</a>
+                      <a class="desktop-menu__item-title">GIO RANCH</a>
                       <span class="desktop-menu__item-desc"
                         >horses wandering through open fields</span
                       >
@@ -61,7 +59,7 @@
                   <div class="desktop-menu__item">
                     <span class="desktop-menu__item-num">04</span>
                     <div class="desktop-menu__item-content">
-                      <a href="#" class="desktop-menu__item-title">GIO WARE</a>
+                      <a class="desktop-menu__item-title">GIO WARE</a>
                       <span class="desktop-menu__item-desc"
                         >a boutique filled with the scents and flavours of the
                         land</span
@@ -71,7 +69,7 @@
                   <div class="desktop-menu__item">
                     <span class="desktop-menu__item-num">05</span>
                     <div class="desktop-menu__item-content">
-                      <a href="#" class="desktop-menu__item-title">GIO MORE</a>
+                      <a class="desktop-menu__item-title">GIO MORE</a>
                       <span class="desktop-menu__item-desc"
                         >workshops, celebrations and simple joys</span
                       >
@@ -80,17 +78,17 @@
                 </nav>
 
                 <div class="desktop-menu__footer">
-                  <a href="#" class="desktop-menu__story">OUR STORY</a>
+                  <a class="desktop-menu__story">OUR STORY</a>
                   <div class="desktop-menu__socials">
-                    <a href="#"><i class="icon-facebook"></i></a>
-                    <a href="#"><i class="icon-instagram"></i></a>
-                    <a href="#"><i class="icon-whatsapp"></i></a>
+                    <a><i class="icon-facebook"></i></a>
+                    <a><i class="icon-instagram"></i></a>
+                    <a><i class="icon-whatsapp"></i></a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <a href="#" class="header__logo">
+          <a class="header__logo">
             <img src="assets/images/hog-logo.png" alt="Logo" class="light" />
             <img
               src="assets/images/hog-logo-dark.png"
@@ -99,7 +97,7 @@
             />
           </a>
 
-          <a href="#" class="header__book">BOOK</a>
+          <a class="header__book">BOOK</a>
         </div>
       </div>
     </header>
@@ -147,7 +145,7 @@
                   sky — a peaceful retreat for guests who seek beauty, quiet,
                   and the authentic warmth of country life.
                 </p>
-                <a href="#" class="btn-link anim-up">DISCOVER MORE</a>
+                <a class="btn-link anim-up">DISCOVER MORE</a>
               </div>
             </div>
           </div>
@@ -233,16 +231,78 @@
               <div class="slide-list d-flex flex-column gap-5 w-100">
                 <div class="slide-list__item">
                   <h3 class="title">SWIMMING POOL GUIDELINES</h3>
-                  <a href="#" class="btn btn-outline">VIEW DETAIL</a>
+                  <button
+                    class="btn btn-outline"
+                    data-modal-target="modal-pool"
+                  >
+                    VIEW DETAIL
+                  </button>
                 </div>
                 <div class="slide-list__item">
                   <h3 class="title">PET POLICY</h3>
-                  <a href="#" class="btn btn-outline">VIEW DETAIL</a>
+                  <button class="btn btn-outline" data-modal-target="modal-pet">
+                    VIEW DETAIL
+                  </button>
                 </div>
+              </div>
 
-                <div class="slide-list__item">
-                  <h3 class="title">SWIMMING POOL GUIDELINES</h3>
-                  <a href="#" class="btn btn-outline">VIEW DETAIL</a>
+              <!-- Modals -->
+              <div id="modal-pool" class="slide-modal">
+                <button class="slide-modal__close">
+                  <i class="icon-close"></i>
+                </button>
+                <div class="slide-modal__content container-center text-center">
+                  <div class="slide-modal__body">
+                    <h3 class="title">SWIMMING POOL GUIDELINES</h3>
+                    <p class="description">
+                      Our swimming pool is designed for relaxation and
+                      enjoyment. Please shower before entering the pool.
+                      Glassware is not permitted in the pool area. Children must
+                      be supervised at all times. Pool hours are from 8:00 AM to
+                      8:00 PM.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div id="modal-pet" class="slide-modal">
+                <button class="slide-modal__close">
+                  <i class="icon-close"></i>
+                </button>
+                <div class="slide-modal__content container-center text-left">
+                  <div
+                    class="slide-modal__body text-start"
+                    style="max-width: 800px"
+                  >
+                    <h3 class="title mb-4">PET POLICY</h3>
+                    <p class="mb-4">
+                      Please note that the estate is home to dogs, cats, horses,
+                      and other animals. All resident animals are friendly with
+                      people and other animals, are regularly vaccinated, and
+                      move freely within the property. Guests acknowledge that
+                      the management cannot be held responsible for the safety
+                      or wellbeing of visiting pets.
+                    </p>
+                    <p class="mb-2">For safety and hygiene reasons:</p>
+                    <ul style="list-style-type: disc; padding-left: 1.5rem">
+                      <li class="mb-2">
+                        Pets must always be kept on a leash in the pool area,
+                        around the accommodations and other buildings, and when
+                        visiting the horse paddocks and stables.
+                      </li>
+                      <li class="mb-2">
+                        Pets must not urinate or defecate on the lawn areas
+                        surrounding the apartments and the pool.
+                      </li>
+                      <li class="mb-2">
+                        Pets must not be left unattended in the apartments or
+                        anywhere on the estate when owners are absent.
+                      </li>
+                      <li>
+                        Feeding of resident animals is strictly prohibited.
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

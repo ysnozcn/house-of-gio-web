@@ -43,6 +43,7 @@ const GLOBAL = {
     GLOBAL.GallerySlider();
     GLOBAL.InvestmentSlider();
     GLOBAL.Fullpage();
+    GLOBAL.SlideOverlay();
   },
 
   Header: () => {
@@ -257,6 +258,69 @@ const GLOBAL = {
     // Re-check on resize
     window.addEventListener("resize", () => {
       initSwiper();
+    });
+  },
+
+  SlideOverlay: () => {
+    const buttons = document.querySelectorAll("[data-modal-target]");
+    const closeButtons = document.querySelectorAll(".slide-modal__close");
+
+    if (!buttons.length) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const targetId = btn.getAttribute("data-modal-target");
+        const modal = document.getElementById(targetId);
+
+        if (modal) {
+          // Animate in
+          gsap.set(modal, { visibility: "visible", scale: 0.8, opacity: 0 });
+          document.querySelector(".header")?.classList.add("opened-modal");
+
+          gsap.to(modal, {
+            scale: 1,
+            opacity: 1,
+            duration: 0.7,
+            ease: "expo.out",
+          });
+
+          const body = modal.querySelector(".slide-modal__body");
+          if (body) {
+            gsap.fromTo(
+              body,
+              { y: 30, opacity: 0 },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                delay: 0.2,
+                ease: "power2.out",
+              },
+            );
+          }
+        }
+      });
+    });
+
+    closeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const modal = btn.closest(".slide-modal");
+        if (modal) {
+          // Animate out
+          gsap.to(modal, {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.6,
+            ease: "expo.inOut",
+            onComplete: () => {
+              gsap.set(modal, { visibility: "hidden" });
+              document
+                .querySelector(".header")
+                ?.classList.remove("opened-modal");
+            },
+          });
+        }
+      });
     });
   },
 
