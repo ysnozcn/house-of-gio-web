@@ -42,6 +42,7 @@ const GLOBAL = {
     GLOBAL.Form();
     GLOBAL.GallerySlider();
     GLOBAL.InvestmentSlider();
+    GLOBAL.Fullpage();
   },
 
   Header: () => {
@@ -56,13 +57,79 @@ const GLOBAL = {
     };
   },
 
-  DesktopMenu: () => {},
+  DesktopMenu: () => {
+    const menuContainer = document.querySelector(".desktop-menu");
+    const hamburger = document.querySelector(".desktop-menu__hamburger");
+    const overlay = document.querySelector(".desktop-menu__overlay");
+    const body = document.body;
+
+    if (!menuContainer || !hamburger || !overlay) return;
+
+    // Create a GSAP timeline paused initially
+    const tl = gsap.timeline({ paused: true, reversed: true });
+
+    tl.to(overlay, {
+      opacity: 1,
+      visibility: "visible",
+      duration: 0.5,
+      ease: "power2.inOut",
+    })
+      .fromTo(
+        ".desktop-menu__item",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power2.out",
+        },
+        "-=0.2",
+      )
+      .fromTo(
+        ".desktop-menu__home-link",
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+        "<",
+      )
+      .fromTo(
+        ".desktop-menu__footer > *",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" },
+        "-=0.4",
+      );
+
+    const toggleMenu = () => {
+      // Toggle active classes
+      hamburger.classList.toggle("active");
+      menuContainer.classList.toggle("active");
+
+      if (tl.reversed()) {
+        tl.timeScale(1).play();
+        body.classList.add("overflow-active");
+      } else {
+        tl.timeScale(1.5).reverse();
+        body.classList.remove("overflow-active");
+      }
+    };
+
+    hamburger.addEventListener("click", toggleMenu);
+
+    // Also close on ESC key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !tl.reversed()) {
+        toggleMenu();
+      }
+    });
+  },
 
   MobileMenu: () => {
     const burger = document?.querySelector(".mobile-menu");
     const mobileMenu = document?.querySelector(".header__menu");
     const header = document?.querySelector(".header");
     const body = document.body;
+
+    if (!burger || !mobileMenu || !header || !body) return;
 
     burger.addEventListener("click", () => {
       if (mobileMenu.classList.contains("open")) {
@@ -82,6 +149,114 @@ const GLOBAL = {
       burger.classList.remove("active");
       body.classList.remove("overflow-active");
       mobileMenu.classList.remove("open");
+    });
+  },
+
+  Fullpage: () => {
+    const sliderSelector = ".fullpage__pages-slider";
+    if (!document.querySelector(sliderSelector)) return;
+
+    let fullpageSwiper = null;
+
+    const isDesktop = $(window).width() > 768;
+
+    // Animation Function
+    const animateSlide = (slide) => {
+      const el = slide;
+      // Animate .anim-up elements
+      const ups = el.querySelectorAll(".anim-up");
+      if (ups.length > 0) {
+        gsap.killTweensOf(ups); // Prevent conflicts
+        gsap.to(ups, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.15,
+          ease: "power2.out",
+          delay: 0.2,
+        });
+      }
+
+      // Animate .anim-zoom elements
+      const zooms = el.querySelectorAll(".anim-zoom");
+      if (zooms.length > 0) {
+        gsap.killTweensOf(zooms);
+        gsap.to(zooms, {
+          scale: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    // Reset Animation Function
+    const resetSlide = (slide) => {
+      const el = slide;
+      const ups = el.querySelectorAll(".anim-up");
+      if (ups.length > 0) {
+        gsap.killTweensOf(ups);
+        gsap.set(ups, { y: 30, opacity: 0 });
+      }
+
+      const zooms = el.querySelectorAll(".anim-zoom");
+      if (zooms.length > 0) {
+        gsap.killTweensOf(zooms);
+        gsap.set(zooms, { scale: 1.2 });
+      }
+    };
+
+    const initSwiper = () => {
+      if (isDesktop) {
+        if (!fullpageSwiper) {
+          fullpageSwiper = new Swiper(sliderSelector, {
+            direction: "horizontal",
+            slidesPerView: 1,
+            speed: 400,
+            mousewheel: true,
+            allowTouchMove: false,
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true, // Changed to true for easier nav
+              type: "bullets",
+            },
+            keyboard: {
+              enabled: true,
+            },
+            on: {
+              init: function () {
+                // Animate first slide on load
+                animateSlide(this.slides[this.activeIndex]);
+              },
+              slideChangeTransitionStart: function () {
+                const activeSlide = this.slides[this.activeIndex];
+                // Animate active slide
+                animateSlide(activeSlide);
+              },
+              slideChangeTransitionEnd: function () {
+                const prevSlide = this.slides[this.previousIndex];
+                // Reset previous slide after transition finishes so it's ready for next visit
+                // Only reset if it's not the active one (just in case of weird index states)
+                if (this.activeIndex !== this.previousIndex) {
+                  resetSlide(prevSlide);
+                }
+              },
+            },
+          });
+        }
+      } else {
+        if (fullpageSwiper) {
+          fullpageSwiper.destroy(true, true);
+          fullpageSwiper = null;
+        }
+      }
+    };
+
+    // Initialize on load
+    initSwiper();
+
+    // Re-check on resize
+    window.addEventListener("resize", () => {
+      initSwiper();
     });
   },
 
@@ -126,7 +301,7 @@ const GLOBAL = {
       {
         scrollTrigger: {
           trigger: "body",
-          start: "60px top",
+          start: "10px top",
           end: "+=400",
           scrub: 1,
         },
