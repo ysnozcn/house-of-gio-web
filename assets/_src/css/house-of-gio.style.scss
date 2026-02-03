@@ -85,6 +85,10 @@ body {
   width: 100%;
 }
 
+.float-none {
+  float: none !important;
+}
+
 // button
 .btn-outline {
   border: 2px solid #1f2937;
@@ -1771,19 +1775,42 @@ body {
       color: #fff;
     }
 
+    &--theme-3 {
+      background-color: #974c22;
+      color: #fff;
+    }
+
+    &--theme-4 {
+      background-color: #974c22;
+      color: #fff;
+    }
+
     .slide-text-wrapper {
       max-width: 800px;
+    }
+
+    .slide-title {
+      font-family: $font-secondary;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+
+      @include lg {
+        font-size: 2.6rem;
+      }
     }
 
     .slide-text {
       font-family: $font-primary;
       font-size: 1.2rem;
       line-height: 1.8;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       color: #e0e0e0;
 
       @include lg {
         font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
     }
 
@@ -2025,6 +2052,98 @@ body {
 
         &:hover {
           opacity: 1;
+        }
+      }
+    }
+  }
+
+  .slide-type-7 {
+    background-color: #e8e6e3;
+    color: #3c3e41;
+
+    .info-list {
+      width: 100%;
+      margin: 0 auto;
+
+      &__item {
+        padding: 1rem 0;
+        border-bottom: 1px solid #b0aca2;
+
+        @include lg {
+          padding: 2rem 0;
+        }
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &-container {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+
+          @include lg {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 2rem;
+          }
+        }
+      }
+
+      &__left {
+        flex: 1;
+        width: 100%;
+
+        @include lg {
+          max-width: 45%;
+        }
+
+        .title {
+          font-family: $font-secondary;
+          font-size: 2rem;
+          color: #333;
+          text-transform: uppercase;
+          line-height: 1.2;
+          margin: 0;
+          font-weight: 400;
+
+          @include lg {
+            font-size: 2.5rem;
+          }
+        }
+      }
+
+      &__right {
+        flex: 1;
+        width: 100%;
+
+        @include lg {
+          max-width: 45%;
+          padding-top: 0.5rem;
+        }
+
+        .desc {
+          font-family: $font-primary;
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #444;
+          margin-bottom: 0;
+          font-weight: 400;
+
+          &.small {
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            opacity: 0.9;
+          }
+
+          @include lg {
+            font-size: 1.5rem;
+          }
         }
       }
     }
