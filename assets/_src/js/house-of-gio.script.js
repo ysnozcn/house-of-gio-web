@@ -44,6 +44,45 @@ const GLOBAL = {
     GLOBAL.InvestmentSlider();
     GLOBAL.Fullpage();
     GLOBAL.SlideOverlay();
+    GLOBAL.FooterSlider();
+    GLOBAL.RanchCardsSlider();
+  },
+
+  FooterSlider: () => {
+    const bgFooter = document.querySelector(".footer--slider");
+    if (!bgFooter) return;
+
+    const toggleBtn = bgFooter.querySelector(".footer__toggle");
+    const accordion = bgFooter.querySelector(".footer__accordion");
+    if (!toggleBtn || !accordion) return;
+
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = bgFooter.classList.contains("open");
+
+      if (isOpen) {
+        // Close
+        bgFooter.classList.remove("open");
+        accordion.style.height = "0px";
+      } else {
+        // Open
+        bgFooter.classList.add("open");
+        const height = accordion.scrollHeight;
+        accordion.style.height = height + "px";
+      }
+
+      // If needed, update swiper layout after transition
+      // But since it's inside a slide, it might just expand visulally
+    });
+
+    // Handle resize to adjust height if open
+    window.addEventListener("resize", () => {
+      if (bgFooter.classList.contains("open")) {
+        // Reset height to auto to get new natural height, then set px
+        accordion.style.height = "auto";
+        const newHeight = accordion.scrollHeight;
+        accordion.style.height = newHeight + "px";
+      }
+    });
   },
 
   Header: () => {
@@ -207,12 +246,22 @@ const GLOBAL = {
     };
 
     const initSwiper = () => {
+      const handleLogo = (index) => {
+        const logo = document.querySelector(".header--fullpage .header__logo");
+        if (!logo) return;
+        if (index === 0) {
+          gsap.to(logo, { opacity: 1, visibility: "visible", duration: 0.3 });
+        } else {
+          gsap.to(logo, { opacity: 0, visibility: "hidden", duration: 0.3 });
+        }
+      };
+
       if (isDesktop) {
         if (!fullpageSwiper) {
           fullpageSwiper = new Swiper(sliderSelector, {
             direction: "horizontal",
             slidesPerView: 1,
-            speed: 400,
+            speed: 600,
             mousewheel: true,
             allowTouchMove: false,
             pagination: {
@@ -227,11 +276,13 @@ const GLOBAL = {
               init: function () {
                 // Animate first slide on load
                 animateSlide(this.slides[this.activeIndex]);
+                handleLogo(this.activeIndex);
               },
               slideChangeTransitionStart: function () {
                 const activeSlide = this.slides[this.activeIndex];
                 // Animate active slide
                 animateSlide(activeSlide);
+                handleLogo(this.activeIndex);
               },
               slideChangeTransitionEnd: function () {
                 const prevSlide = this.slides[this.previousIndex];
@@ -249,6 +300,7 @@ const GLOBAL = {
           fullpageSwiper.destroy(true, true);
           fullpageSwiper = null;
         }
+        handleLogo(0);
       }
     };
 
@@ -259,6 +311,53 @@ const GLOBAL = {
     window.addEventListener("resize", () => {
       initSwiper();
     });
+
+    // Discover More Interaction
+
+    const $discoverBtns = $(".slide-type-4 .btn-link");
+
+    if ($discoverBtns.length) {
+      $discoverBtns.on("click", function () {
+        const $btn = $(this);
+        const $slide = $btn.closest(".slide-type-4");
+        const $list = $slide.find(".disover-more-list");
+        const $text = $slide.find(".disover-more-text");
+
+        $btn.css("display", "none");
+
+        // Animate Content In
+        if ($list.length) {
+          $list.css("display", "block");
+          gsap.fromTo(
+            $list[0],
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+          );
+        }
+
+        if ($text.length) {
+          $text.css("display", "block");
+          gsap.fromTo(
+            $text[0],
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              delay: 0.1,
+            },
+          );
+        }
+
+        // Update Re-layout
+        if (fullpageSwiper) {
+          setTimeout(() => {
+            fullpageSwiper.update();
+          }, 500);
+        }
+      });
+    }
   },
 
   SlideOverlay: () => {
@@ -562,16 +661,18 @@ const GLOBAL = {
       },
     });
   },
+
   GallerySlider: () => {
     const swiper = new Swiper(".gallery-slider", {
       slidesPerView: 1,
       loop: true,
       // effect: "fade",
       speed: 1000,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
+      // autoplay: {
+      //   delay: 5000,
+      //   disableOnInteraction: false,
+      // },
+      autoplay: false,
       navigation: {
         nextEl: ".gallery-slider__next",
         prevEl: ".gallery-slider__prev",
@@ -717,6 +818,28 @@ const GLOBAL = {
             $btn.prop("disabled", false).text(originalText);
           },
         });
+      },
+    });
+  },
+
+  RanchCardsSlider: () => {
+    const sliderSelector = ".ranch-cards-slider";
+    if (!document.querySelector(sliderSelector)) return;
+
+    new Swiper(sliderSelector, {
+      slidesPerView: 1.3,
+      centeredSlides: true,
+      loop: true,
+      spaceBetween: 20,
+      allowTouchMove: true,
+      breakpoints: {
+        992: {
+          slidesPerView: "auto",
+          centeredSlides: false,
+          allowTouchMove: false,
+          spaceBetween: 24,
+          loop: false,
+        },
       },
     });
   },
