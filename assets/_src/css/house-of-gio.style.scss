@@ -9,7 +9,7 @@
 @use "swiper/css/autoplay";
 @use "swiper/css/mousewheel";
 
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;700&family=Playfair+Display:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;700&family=Playfair+Display:wght@400;500&display=swap");
 
 // Base
 @import "base/reset.css";
@@ -53,6 +53,13 @@ body {
 
   @include lg {
     min-height: 100vh;
+  }
+
+  .text-left-block {
+    width: 100%;
+    .slide-text {
+      margin: 0 !important;
+    }
   }
 }
 
@@ -1274,9 +1281,6 @@ body {
   }
 }
 
-.room-flor-plan {
-}
-
 .gallery-slider {
   width: 100%;
   position: relative;
@@ -1629,6 +1633,15 @@ body {
     }
   }
 
+  .anim-left {
+    opacity: 1;
+    transform: translateX(0);
+    @include lg {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+  }
+
   .anim-zoom {
     transform: scale(1.2);
   }
@@ -1731,12 +1744,36 @@ body {
     .slide-title {
       font-family: $font-secondary;
       font-size: 3rem;
-      color: #333;
+      color: #3c3e41;
       margin-bottom: 1rem;
       font-weight: 400;
 
       @include lg {
         font-size: 6rem;
+      }
+    }
+
+    .slide-subtitle-2 {
+      font-family: $font-secondary;
+      font-size: 2rem;
+      color: #3c3e41;
+      margin-bottom: 1rem;
+      font-weight: 400;
+
+      @include lg {
+        font-size: 2.6rem;
+      }
+    }
+
+    .slide-subtitle-3 {
+      font-family: $font-secondary;
+      font-size: 2rem;
+      color: #3c3e41;
+      margin-bottom: 1rem;
+      font-weight: 500;
+
+      @include lg {
+        font-size: 2.6rem;
       }
     }
 
@@ -1750,6 +1787,22 @@ body {
 
       @include lg {
         font-size: 1.5rem;
+      }
+
+      a {
+        color: #3c3e41;
+      }
+    }
+
+    .icon-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: #3c3e41;
+
+      span {
+        text-decoration: underline;
       }
     }
 
@@ -1782,6 +1835,10 @@ body {
 
     &--theme-4 {
       background-color: #974c22;
+      color: #fff;
+    }
+    &--theme-5 {
+      background-color: #dab47d;
       color: #fff;
     }
 
@@ -1913,9 +1970,6 @@ body {
         opacity: 0.7;
       }
     }
-  }
-
-  .slide-type-5 {
   }
 
   .slide-type-6 {
@@ -2070,7 +2124,7 @@ body {
         border-bottom: 1px solid #b0aca2;
 
         @include lg {
-          padding: 2rem 0;
+          padding: 1.3rem 0;
         }
 
         &:first-child {
@@ -2145,6 +2199,204 @@ body {
             font-size: 1.5rem;
           }
         }
+      }
+    }
+  }
+
+  .slide-type-8 {
+    width: 100%;
+    height: 100%;
+    display: flex !important; // Ensure flex for centering
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    background-color: #eae8e4; // Match slide modal/site bg or leave transparent if handled elsewhere. Using light beige for safety/fallback.
+
+    &__container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      height: auto;
+
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2rem;
+      justify-content: center;
+      align-items: center;
+
+      @include lg {
+        flex-direction: row;
+        gap: 3rem;
+        padding: 0;
+        align-items: stretch;
+        max-height: 84%;
+      }
+
+      &--grid {
+        @include lg {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+          max-width: 1100px;
+          max-height: 84%;
+        }
+      }
+    }
+
+    &__card {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+      padding: 2rem;
+      width: 100%;
+      aspect-ratio: 1 / 1.1;
+      max-width: 550px;
+
+      @include lg {
+        padding: 3rem;
+        aspect-ratio: 1 / 1;
+      }
+    }
+
+    &__bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+      transition: transform 0.6s ease;
+
+      &.bg-honey-1 {
+        background-image: url(../../images/card-bg-honey-1.jpg);
+      }
+
+      &.bg-honey-2 {
+        background-image: url(../../images/card-bg-honey-2.jpg);
+      }
+
+      &.bg-product-1 {
+        background-image: url(../../images/product-bg-1.jpg);
+      }
+
+      &.bg-product-2 {
+        background-image: url(../../images/product-bg-2.jpg);
+      }
+
+      &.bg-product-3 {
+        background-image: url(../../images/product-bg-3.jpg);
+      }
+
+      &.bg-product-4 {
+        background-image: url(../../images/product-bg-4.jpg);
+      }
+      &.bg-massage {
+        background-image: url(../../images/bg-massage.jpg);
+      }
+      &.bg-yoga {
+        background-image: url(../../images/bg-yoga.jpg);
+      }
+      &.bg-photo {
+        background-image: url(../../images/bg-photo.jpg);
+      }
+      &.bg-wedding {
+        background-image: url(../../images/bg-wedding.jpg);
+      }
+    }
+
+    // Hover effect for desktop
+    &__card:hover &__bg {
+      transform: scale(1.05);
+    }
+
+    &__content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .title {
+      font-family: $font-secondary;
+      font-size: 2rem;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: 400;
+
+      @include lg {
+        font-size: 2.6rem;
+      }
+
+      &.fix-height-220 {
+        min-height: 160px;
+
+        @include lg {
+          min-height: 180px;
+        }
+      }
+    }
+
+    .desc {
+      font-family: $font-primary;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #fff;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      font-weight: 300;
+      max-width: 380px;
+
+      @include lg {
+        font-size: 1.6rem;
+      }
+
+      &--fix-height {
+        min-height: 80px;
+
+        @include lg {
+          min-height: 80px;
+        }
+      }
+    }
+
+    .shop-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      padding-bottom: 4px;
+      transition: all 0.3s ease;
+      font-family: $font-primary;
+
+      i {
+        font-size: 1rem;
+      }
+
+      span {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      &:hover {
+        opacity: 1;
+        border-bottom-color: #fff;
       }
     }
   }
