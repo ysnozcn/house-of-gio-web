@@ -46,6 +46,7 @@ const GLOBAL = {
     GLOBAL.SlideOverlay();
     GLOBAL.FooterSlider();
     GLOBAL.RanchCardsSlider();
+    GLOBAL.ProductSlider();
   },
 
   FooterSlider: () => {
@@ -838,6 +839,29 @@ const GLOBAL = {
           centeredSlides: false,
           allowTouchMove: false,
           spaceBetween: 24,
+          loop: false,
+        },
+      },
+    });
+  },
+
+  ProductSlider: () => {
+    const sliderSelector = ".product-detail__slider";
+    if (!document.querySelector(sliderSelector)) return;
+
+    new Swiper(sliderSelector, {
+      slidesPerView: 1.2,
+      centeredSlides: true,
+      spaceBetween: 30,
+      loop: false,
+      speed: 600,
+      allowTouchMove: true,
+      breakpoints: {
+        992: {
+          slidesPerView: "auto",
+          centeredSlides: false,
+          spaceBetween: 80,
+          allowTouchMove: false,
           loop: false,
         },
       },

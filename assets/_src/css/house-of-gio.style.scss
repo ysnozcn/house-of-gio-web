@@ -2784,3 +2784,239 @@ body {
     }
   }
 }
+
+.product-detail {
+  width: 100%;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background-color: #eae8e4;
+  background-image: url(../../images/products/product-detai-oil-bg.jpg);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    @include lg {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+
+  &__slider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    padding-bottom: 2rem;
+
+    @include lg {
+      padding-bottom: 0;
+      height: auto;
+      width: auto;
+      position: relative;
+      bottom: auto;
+      left: auto;
+      overflow: visible;
+    }
+
+    .swiper-wrapper {
+      align-items: flex-end;
+    }
+  }
+}
+
+.product-slide {
+  height: auto;
+  width: auto;
+  display: flex !important; // override swiper block
+  align-items: flex-end;
+  justify-content: center;
+
+  // Mobile: Slides occupy width
+  width: 100%;
+
+  @include lg {
+    width: auto !important;
+  }
+}
+
+.product-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  &__img {
+    display: block;
+    width: auto;
+    max-height: 70vh;
+    transition: transform 0.3s ease;
+
+    @include lg {
+      max-height: none; // Unset max-height, control by class specific height
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    filter: blur(8px);
+    z-index: 0;
+
+    @include lg {
+      width: 100%;
+      bottom: -10px;
+      height: 50px;
+      filter: blur(5px);
+    }
+  }
+
+  // Ensure image is above shadow
+  &__img {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__info {
+    font-family: $font-primary;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 10%;
+    z-index: 2;
+    left: 90%;
+    line-height: 1.2;
+
+    @include lg {
+      position: absolute;
+      // Adjust per bottle type
+    }
+  }
+
+  &__size {
+    width: 100%;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  &__title {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+  &__price {
+    width: 100%;
+    font-size: 1rem;
+    font-family: $font-primary;
+  }
+  &__buy {
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+    font-family: $font-primary;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Specific adjustments for bottles
+// Large Bottle (Left)
+.product-slide--large {
+  .product-item {
+    &__img {
+      @include lg {
+        height: 75vh;
+      }
+    }
+
+    &__info {
+      top: 2%;
+      align-items: flex-start;
+      @include lg {
+        top: 2%;
+      }
+    }
+  }
+}
+
+// Medium Bottle (Center/Right)
+.product-slide--medium {
+  .product-item {
+    z-index: 5;
+
+    &__img {
+      @include lg {
+        height: 60vh;
+      }
+    }
+
+    &__info {
+      top: 2%;
+      align-items: flex-start;
+      @include lg {
+        top: 2%;
+      }
+    }
+  }
+}
+
+// Small Bottle (Right)
+.product-slide--small {
+  .product-item {
+    &__img {
+      @include lg {
+        height: 40vh;
+      }
+    }
+
+    &__info {
+      top: 2%;
+      align-items: flex-start;
+      @include lg {
+        top: 2%;
+      }
+    }
+  }
+}
