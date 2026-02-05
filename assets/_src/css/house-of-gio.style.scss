@@ -2792,19 +2792,31 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0 !important;
-  background-color: #eae8e4;
-  background-image: url(../../images/products/product-detai-oil-bg.jpg);
-  background-position: bottom center;
-  background-repeat: no-repeat;
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  &__wrapper {
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: relative;
-    bottom: 5%;
+    background-color: #eae8e4;
+    background-image: url(../../images/products/product-detai-oil-bg.jpg);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0;
+    animation: bgZoom 15s ease-out forwards;
+  }
+
+  &__wrapper {
+    position: relative; // Ensure z-index works
+    z-index: 2;
+    //...
 
     @include lg {
       position: absolute;
@@ -3019,5 +3031,280 @@ body {
         top: 2%;
       }
     }
+  }
+}
+// Product Basket Modal
+.product-basket {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none; // Hidden by default, toggled via JS
+
+  &.open {
+    display: block;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
+
+  &__modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    background-color: #eae8e4;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%); // Slide in animation setup
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+
+    @include lg {
+      padding: 3rem;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      font-family: $font-secondary;
+      font-size: 2.5rem;
+      color: #333;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    button {
+      background: none;
+      border: none;
+      font-family: $font-primary;
+      font-size: 0.9rem;
+      text-decoration: underline;
+      cursor: pointer;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+
+  &__items {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 1rem; // scrolling space
+
+    // Scrollbar styling
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(#000, 0.1);
+      border-radius: 4px;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 1.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    img {
+      width: 40px;
+      height: 140px;
+      object-fit: contain;
+      object-position: center;
+      margin-right: 1.5rem;
+      mix-blend-mode: multiply; // Blend better with bg
+    }
+
+    &-info {
+      flex: 1;
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-title {
+      display: block;
+      font-family: $font-primary;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    &-price {
+      display: block;
+      font-family: $font-primary;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    &-remove {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.5;
+      font-size: 1.2rem;
+      @include e200;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &-qty {
+      display: flex;
+      align-items: center;
+      border: 1px solid #999;
+      width: fit-content;
+      margin-top: auto;
+
+      button {
+        background: none;
+        border: none;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #333;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      span {
+        font-family: $font-primary;
+        font-size: 0.9rem;
+        padding: 0 5px;
+        min-width: 20px;
+        text-align: center;
+        border-left: 1px solid #999;
+        border-right: 1px solid #999;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__footer {
+    border-top: 1px solid #999;
+    padding-top: 1.5rem;
+    margin-top: auto;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-family: $font-secondary;
+    font-size: 1.2rem;
+    color: #333;
+
+    .total-price {
+      font-weight: 600;
+    }
+  }
+
+  &__checkout {
+    width: 100%;
+    background-color: #315c83;
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    font-family: $font-primary;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: #264a69;
+    }
+  }
+  &__loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(234, 232, 228, 0.8);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &::after {
+      content: "";
+      width: 40px;
+      height: 40px;
+      border: 3px solid #ccc;
+      border-top-color: #315c83;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes bgZoom {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -47,6 +47,7 @@ const GLOBAL = {
     GLOBAL.FooterSlider();
     GLOBAL.RanchCardsSlider();
     GLOBAL.ProductSlider();
+    GLOBAL.Product.init();
   },
 
   FooterSlider: () => {
@@ -866,6 +867,189 @@ const GLOBAL = {
         },
       },
     });
+
+    // Animation for products
+    gsap.from(".product-item", {
+      y: 100,
+      opacity: 0,
+      duration: 1.5,
+      stagger: 0.3,
+      ease: "power3.out",
+      delay: 0.2,
+    });
+  },
+  Product: {
+    cart: [],
+
+    init: () => {
+      GLOBAL.Product.loadCart();
+      GLOBAL.Product.bindEvents();
+      GLOBAL.Product.renderCart();
+    },
+
+    loadCart: () => {
+      const savedCart = localStorage.getItem("gioCart");
+      if (savedCart) {
+        GLOBAL.Product.cart = JSON.parse(savedCart);
+      }
+    },
+
+    saveCart: () => {
+      localStorage.setItem("gioCart", JSON.stringify(GLOBAL.Product.cart));
+      GLOBAL.Product.renderCart();
+    },
+
+    bindEvents: () => {
+      // Open Cart
+      $(document).on("click", ".product-item__buy", function (e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const product = {
+          id: $btn.data("id"),
+          title: $btn.data("title"),
+          price: parseFloat($btn.data("price")),
+          image: $btn.data("image"),
+          qty: 1,
+        };
+        GLOBAL.Product.addToCart(product);
+        GLOBAL.Product.openCart();
+      });
+
+      // Close Cart
+      $(document).on(
+        "click",
+        ".product-basket__close, .product-basket__overlay",
+        function () {
+          GLOBAL.Product.closeCart();
+        },
+      );
+
+      // Remove Item
+      $(document).on("click", ".product-basket__item-remove", function () {
+        const id = $(this).data("id");
+        GLOBAL.Product.removeFromCart(id);
+      });
+
+      // Quantity Change
+      $(document).on("click", ".qty-btn", function () {
+        const id = $(this).data("id");
+        const action = $(this).data("action");
+        GLOBAL.Product.updateQuantity(id, action);
+      });
+    },
+
+    openCart: () => {
+      const $basket = $(".product-basket");
+      const $modal = $basket.find(".product-basket__modal");
+
+      $basket.addClass("open");
+      // Explicitly set display block first before animation if needed,
+      // but class 'open' usually handles display.
+      // We animate the modal sliding in.
+
+      gsap.to($modal, {
+        x: "0%",
+        duration: 0.5,
+        ease: "power3.out",
+      });
+    },
+
+    closeCart: () => {
+      const $basket = $(".product-basket");
+      const $modal = $basket.find(".product-basket__modal");
+
+      gsap.to($modal, {
+        x: "100%",
+        duration: 0.5,
+        ease: "power3.in",
+        onComplete: () => {
+          $basket.removeClass("open");
+        },
+      });
+    },
+
+    addToCart: (product) => {
+      const existing = GLOBAL.Product.cart.find((p) => p.id === product.id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        GLOBAL.Product.cart.push(product);
+      }
+      GLOBAL.Product.saveCart();
+    },
+
+    removeFromCart: (id) => {
+      const $loader = $(".product-basket__loader");
+      $loader.addClass("active");
+
+      setTimeout(() => {
+        GLOBAL.Product.cart = GLOBAL.Product.cart.filter((p) => p.id !== id);
+        GLOBAL.Product.saveCart();
+        $loader.removeClass("active");
+      }, 500);
+    },
+
+    updateQuantity: (id, action) => {
+      const $loader = $(".product-basket__loader");
+      $loader.addClass("active");
+
+      setTimeout(() => {
+        const item = GLOBAL.Product.cart.find((p) => p.id === id);
+        if (!item) {
+          $loader.removeClass("active");
+          return;
+        }
+
+        if (action === "inc") {
+          item.qty += 1;
+        } else if (action === "dec") {
+          item.qty -= 1;
+          if (item.qty < 1) {
+            item.qty = 1;
+          }
+        }
+        GLOBAL.Product.saveCart();
+        $loader.removeClass("active");
+      }, 500);
+    },
+
+    renderCart: () => {
+      const $container = $(".product-basket__items");
+      const $totalPrice = $(".total-price");
+
+      $container.empty();
+      let total = 0;
+
+      if (GLOBAL.Product.cart.length === 0) {
+        $container.html(
+          '<p style="text-align:center; padding:2rem; color:#666;">Your cart is empty.</p>',
+        );
+      } else {
+        GLOBAL.Product.cart.forEach((item) => {
+          total += item.price * item.qty;
+
+          const html = `
+                <div class="product-basket__item">
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="product-basket__item-info">
+                        <span class="product-basket__item-title">${item.title}</span>
+                        <span class="product-basket__item-price">€${item.price.toFixed(2)}</span>
+                        
+                         <div class="product-basket__item-qty">
+                            <button class="qty-btn" data-id="${item.id}" data-action="dec">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" data-id="${item.id}" data-action="inc">+</button>
+                        </div>
+                    </div>
+                     <button class="product-basket__item-remove" data-id="${item.id}">✕</button>
+                </div>
+            `;
+          $container.append(html);
+        });
+      }
+
+      $totalPrice.text("€" + total.toFixed(2));
+    },
   },
 };
 
