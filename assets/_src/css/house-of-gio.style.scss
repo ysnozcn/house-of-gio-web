@@ -1521,12 +1521,14 @@ body {
       > .swiper-slide {
         width: 100%;
         height: auto;
+        border-top: 1px solid #bdbdbd;
 
         @include lg {
           height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
+          border-top: none;
         }
       }
     }
@@ -2265,7 +2267,7 @@ body {
       padding: 2rem;
       width: 100%;
       aspect-ratio: 1 / 1.1;
-      max-width: 550px;
+      max-width: 500px;
 
       @include lg {
         padding: 3rem;
