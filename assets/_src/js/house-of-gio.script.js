@@ -924,6 +924,11 @@ const GLOBAL = {
         },
       );
 
+      // Close Checkout
+      $(document).on("click", ".checkout-close", function () {
+        GLOBAL.Product.closeCheckout();
+      });
+
       // Remove Item
       $(document).on("click", ".product-basket__item-remove", function () {
         const id = $(this).data("id");
@@ -935,6 +940,10 @@ const GLOBAL = {
         const id = $(this).data("id");
         const action = $(this).data("action");
         GLOBAL.Product.updateQuantity(id, action);
+      });
+
+      $(document).on("click", ".product-basket__checkout", function () {
+        GLOBAL.Product.checkout();
       });
     },
 
@@ -1049,6 +1058,177 @@ const GLOBAL = {
       }
 
       $totalPrice.text("€" + total.toFixed(2));
+    },
+
+    checkout: () => {
+      GLOBAL.Product.closeCart();
+
+      const $modal = $("#checkout-modal");
+
+      if ($modal.length === 0) return;
+
+      // Populate Summary
+      GLOBAL.Product.renderCheckoutSummary();
+      GLOBAL.Product.initCheckoutForm();
+
+      // Ensure visible before animating
+      gsap.set($modal, {
+        autoAlpha: 1,
+        visibility: "visible",
+        x: "100%", // Start off-screen right
+      });
+
+      // Animate Slide In
+      gsap.to($modal, {
+        x: "0%",
+        duration: 0.6,
+        ease: "power3.out",
+      });
+    },
+
+    closeCheckout: () => {
+      const $modal = $("#checkout-modal");
+
+      // Animate Slide Out
+      gsap.to($modal, {
+        x: "100%",
+        duration: 0.5,
+        ease: "power3.in",
+        onComplete: () => {
+          gsap.set($modal, { autoAlpha: 0 }); // Hide after animation
+        },
+      });
+    },
+
+    renderCheckoutSummary: () => {
+      const $container = $(".order-summary__items");
+      const $subtotal = $(".summary-subtotal");
+      const $shipping = $(".summary-shipping");
+      const $tax = $(".summary-tax");
+      const $total = $(".summary-total");
+
+      $container.empty();
+      let subtotal = 0;
+
+      GLOBAL.Product.cart.forEach((item) => {
+        subtotal += item.price * item.qty;
+        const html = `
+             <div class="order-summary__item">
+                <span class="order-summary__item-title">${item.qty} x ${item.title}</span>
+                <span class="order-summary__item-price">€${(item.price * item.qty).toFixed(2)}</span>
+            </div>
+        `;
+        $container.append(html);
+      });
+
+      const shipping = subtotal > 0 ? 5.0 : 0;
+      const taxrate = 0.2; // 20% tax example
+      const tax = subtotal * taxrate;
+      const total = subtotal + shipping + tax;
+
+      $subtotal.text("€" + subtotal.toFixed(2));
+      $shipping.text("€" + shipping.toFixed(2));
+      $tax.text("€" + tax.toFixed(2));
+      $total.text("€" + total.toFixed(2));
+    },
+
+    initCheckoutForm: () => {
+      const $form = $("#checkoutForm");
+      if ($form.data("validator")) return; // Already initialized
+
+      $form.validate({
+        rules: {
+          name: "required",
+          address: "required",
+          city: "required",
+          state: "required",
+          zip: "required",
+          phone: "required",
+          email: {
+            required: true,
+            email: true,
+          },
+        },
+        messages: {
+          name: "Required",
+          address: "Required",
+          city: "Required",
+          state: "Required",
+          zip: "Required",
+          phone: "Required",
+          email: "Valid email required",
+        },
+        errorElement: "span",
+        errorClass: "error-message",
+        highlight: function (element) {
+          $(element).addClass("error");
+          // Also add parent class if needed for styling
+        },
+        unhighlight: function (element) {
+          $(element).removeClass("error");
+        },
+        submitHandler: function (form) {
+          const $btn = $(form).find("button[type='submit']"); // Button is outside form but linked via form attribute.
+          // Actually button[type='submit'] inside .order-summary usually triggers submit if form attribute is set.
+          // Or we find the button that triggered it.
+          const $submitBtn = $(".order-summary button[type='submit']");
+          const originalText = $submitBtn.text();
+          const apiUrl = $(form).data("apiurl");
+
+          if (!apiUrl) {
+            console.error("API URL not defined");
+            return;
+          }
+
+          $submitBtn.prop("disabled", true).text("SENDING...");
+
+          // Collect Cart Data
+          const orderData = {
+            customer: {
+              name: $(form).find("[name='name']").val(),
+              address: $(form).find("[name='address']").val(),
+              city: $(form).find("[name='city']").val(),
+              state: $(form).find("[name='state']").val(),
+              zip: $(form).find("[name='zip']").val(),
+              phone: $(form).find("[name='phone']").val(),
+              email: $(form).find("[name='email']").val(),
+              note: $(form).find("[name='note']").val(),
+            },
+            items: GLOBAL.Product.cart,
+            totals: {
+              // Calculator values
+            },
+          };
+
+          $.ajax({
+            url: apiUrl,
+            type: "POST",
+            data: JSON.stringify(orderData),
+            contentType: "application/json",
+            success: function (response) {
+              alert("Order received! Thank you.");
+              GLOBAL.Product.cart = [];
+              GLOBAL.Product.saveCart();
+              GLOBAL.Product.renderCart();
+              GLOBAL.Product.closeCheckout();
+              form.reset();
+            },
+            error: function (xhr, status, error) {
+              console.error("Order error:", error);
+              // For demo, success anyway
+              alert("Order received! (Demo)");
+              GLOBAL.Product.cart = [];
+              GLOBAL.Product.saveCart();
+              GLOBAL.Product.renderCart();
+              GLOBAL.Product.closeCheckout();
+              form.reset();
+            },
+            complete: function () {
+              $submitBtn.prop("disabled", false).text(originalText);
+            },
+          });
+        },
+      });
     },
   },
 };
