@@ -749,7 +749,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    max-width: 1090px;
+    max-width: 1200px;
     margin: 0 auto;
     font-size: $font24;
 
@@ -763,6 +763,7 @@ body {
       @include e200;
       font-size: $font36;
       opacity: 0;
+      text-transform: uppercase;
 
       @include lg {
         font-size: $font96;
@@ -946,6 +947,48 @@ body {
     .section-about-text__body-content {
       max-width: 1190px;
       font-size: $font40;
+    }
+  }
+}
+
+.room-flor-plan {
+  width: 100%;
+  height: 90px;
+  background-image: url(../../images/gio-roma/room-flor-plan.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+
+  &__container {
+    max-width: 790px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+    color: #fff;
+
+    h4 {
+      font-size: $font24;
+      @include e200;
+
+      @include lg {
+        font-size: $font42;
+      }
+    }
+
+    .text-link {
+      font-size: $font16;
+      @include e200;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      text-decoration: underline;
+
+      @include lg {
+        font-size: $font24;
+      }
     }
   }
 }
@@ -1147,6 +1190,13 @@ body {
     font-weight: 400;
     line-height: 1.5;
   }
+}
+
+.static-content-page {
+  width: 100%;
+  padding-top: 250px;
+  padding-bottom: 60px;
+  background-color: $bg-light;
 }
 
 .image-grid {
@@ -2426,7 +2476,6 @@ body {
     &-container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 2rem;
 
       > ul {
         display: grid;
@@ -2681,7 +2730,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #eae8e4; // Light beige
+  background-color: #eae8e4;
   z-index: 9999;
   visibility: hidden;
   opacity: 0;
@@ -2722,7 +2771,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 2rem;
-    background-color: #ebeae6;
+    // background-color: #ebeae6;
 
     @include lg {
       padding: 5rem;
@@ -2734,6 +2783,7 @@ body {
     margin: auto;
     color: #333;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 10px;
 
     &.w-full {
@@ -3607,6 +3657,85 @@ body {
     &:disabled {
       background: #9ca3af;
       cursor: not-allowed;
+    }
+  }
+}
+
+// Room Detail Modal / Standard
+.room-detail-modal {
+  text-align: left;
+
+  .subtitle {
+    font-family: $font-secondary;
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  .description {
+    margin-bottom: 2rem;
+    p {
+      font-family: $font-primary;
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+    }
+  }
+
+  .separator {
+    margin: 3rem 0;
+    border: 0;
+    border-top: 1px solid #ccc;
+  }
+
+  h4 {
+    font-family: $font-secondary;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin-top: 2rem;
+  }
+
+  .features-list {
+    margin-bottom: 2rem;
+
+    h5 {
+      font-family: $font-primary;
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0.5rem;
+      margin-bottom: 1.5rem;
+
+      li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #555;
+        font-family: $font-primary;
+        font-size: 0.95rem;
+
+        &:before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          color: #888;
+          font-weight: bold;
+        }
+      }
     }
   }
 }

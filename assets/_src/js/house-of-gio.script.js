@@ -370,6 +370,7 @@ const GLOBAL = {
 
     buttons.forEach((btn) => {
       btn.addEventListener("click", (e) => {
+        e.preventDefault();
         const targetId = btn.getAttribute("data-modal-target");
         const modal = document.getElementById(targetId);
 

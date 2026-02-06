@@ -18,12 +18,14 @@
         <div class="header__container">
           <nav class="header__menu">
             <ul>
-              <li><a href=""> GIO ROMA</a></li>
-              <li><a href="#">HOUSE OF GIO ESTATE </a></li>
-              <li><a href="#">THE CLUBHOUSE</a></li>
-              <li><a href="#">OUR STORY</a></li>
-              <li><a href="#">SHOP</a></li>
-              <li><a href="#">CONTACT US</a></li>
+              <li><a href="gio-roma.html"> GIO ROMA</a></li>
+              <li>
+                <a href="house-of-gio-estate.html">HOUSE OF GIO ESTATE </a>
+              </li>
+              <li><a href="gio-ranch.html">THE CLUBHOUSE</a></li>
+              <li><a href="gio-more.html">OUR STORY</a></li>
+              <li><a href="gio-ware.html">SHOP</a></li>
+              <li><a href="contact.html">CONTACT US</a></li>
             </ul>
           </nav>
         </div>
@@ -34,7 +36,7 @@
           <span></span>
         </button>
       </div>
-      <div class="header__bottom">
+       <div class="header__bottom">
         <div class="header__container">
           <div class="desktop-menu">
             <button class="desktop-menu__hamburger">
@@ -42,8 +44,85 @@
               <span></span>
               <span></span>
             </button>
+            <div class="desktop-menu__overlay">
+              <div class="desktop-menu__container">
+                <div class="desktop-menu__header">
+                  <a class="desktop-menu__home-link" href="/index.html">HOME</a>
+                </div>
+
+                <nav class="desktop-menu__nav">
+                  <div class="desktop-menu__item">
+                    <span class="desktop-menu__item-num">01</span>
+                    <div class="desktop-menu__item-content">
+                      <a class="desktop-menu__item-title" href="gio-roma.html"
+                        >GIO ROMA</a
+                      >
+                      <span class="desktop-menu__item-desc"
+                        >a Roman loft wrapped in history</span
+                      >
+                    </div>
+                  </div>
+                  <div class="desktop-menu__item">
+                    <span class="desktop-menu__item-num">02</span>
+                    <div class="desktop-menu__item-content">
+                      <a
+                        class="desktop-menu__item-title"
+                        href="gio-toscana.html"
+                        >GIO TOSCANA</a
+                      >
+                      <span class="desktop-menu__item-desc"
+                        >a Tuscan estate of rolling hills and olive trees</span
+                      >
+                    </div>
+                  </div>
+                  <div class="desktop-menu__item">
+                    <span class="desktop-menu__item-num">03</span>
+                    <div class="desktop-menu__item-content">
+                      <a class="desktop-menu__item-title" href="gio-ranch.html"
+                        >GIO RANCH</a
+                      >
+                      <span class="desktop-menu__item-desc"
+                        >horses wandering through open fields</span
+                      >
+                    </div>
+                  </div>
+                  <div class="desktop-menu__item">
+                    <span class="desktop-menu__item-num">04</span>
+                    <div class="desktop-menu__item-content">
+                      <a class="desktop-menu__item-title" href="gio-ware.html"
+                        >GIO WARE</a
+                      >
+                      <span class="desktop-menu__item-desc"
+                        >a boutique filled with the scents and flavours of the
+                        land</span
+                      >
+                    </div>
+                  </div>
+                  <div class="desktop-menu__item">
+                    <span class="desktop-menu__item-num">05</span>
+                    <div class="desktop-menu__item-content">
+                      <a class="desktop-menu__item-title" href="gio-more.html"
+                        >GIO MORE</a
+                      >
+                      <span class="desktop-menu__item-desc"
+                        >workshops, celebrations and simple joys</span
+                      >
+                    </div>
+                  </div>
+                </nav>
+
+                <div class="desktop-menu__footer">
+                  <a class="desktop-menu__story">OUR STORY</a>
+                  <div class="desktop-menu__socials">
+                    <a href="https://www.facebook.com/people/Giovanni-Poli/100069096681285/" target="_blank"></a><i class="icon-facebook"></i></a>
+                    <a href="https://www.instagram.com/house.of.gio/?hl=en" target="_blank"><i class="icon-instagram"></i></a>
+                    <a><i class="icon-whatsapp"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <a href="#" class="header__logo">
+          <a class="header__logo">
             <img src="assets/images/hog-logo.png" alt="Logo" class="light" />
             <img
               src="assets/images/hog-logo-dark.png"
@@ -52,14 +131,14 @@
             />
           </a>
 
-          <a href="#" class="header__book">BOOK</a>
+          <a class="header__book">BOOK</a>
         </div>
       </div>
     </header>
     <div class="subpage">
       <section class="section hero-intro">
         <div class="hero-intro__bg">
-          <img src="assets/images/intro-img.jpg" alt="Intro Image" />
+          <img src="assets/images/gio-roma/gio-roma-hero.jpg" alt="Intro Image" />
           <div class="overlay"></div>
         </div>
         <div class="hero-intro__content">
@@ -70,7 +149,7 @@
               in the heart of Rome
             </h1>
             <p class="hero-intro__content-bottom-title mb-2">
-              A luxury, self-catered short-stay loft in Rome’s historic centre,
+              A luxury, self-catered short-stay loft in Rome’s historic centre, <br>
               enhanced with concierge-style services.
             </p>
           </div>
@@ -125,7 +204,7 @@
                   spacious en-suite bathroom create a haven of quiet,
                   contemporary luxury.
                 </p>
-                <a href="#" class="room-detail-section__link">EXPLORE</a>
+                <a href="#" class="room-detail-section__link" data-modal-target="modal-gio-roma-explore">EXPLORE</a>
               </div>
             </div>
             <div class="col-12 col-lg-7 col-xl-8">
@@ -157,41 +236,50 @@
             </div>
           </div>
         </section>
+        
 
-        <section class="section room-flor-plan"></section>
+        <section class="section room-flor-plan">
+          <div class="container">
+            <div class="room-flor-plan__container">
+              <h4>FLOOR PLAN</h4>
+              <button class="text-link" data-modal-target="modal-gio-roma-floor-plan">DISCOVER MORE</button>
+            </div>
+          </div>
+        </section>
       </article>
     </div>
 
     <div class="footer">
       <div class="footer__main-menu">
+        <div class="container">
         <div class="footer__main-menu-container">
           <ul>
             <li>
               <h5>STAY</h5>
               <ul>
-                <li><a href="#">GIO ROMA</a></li>
-                <li><a href="#">GIO TOSCANA</a></li>
+                <li><a href="gio-roma.html">GIO ROMA</a></li>
+                <li><a href="gio-toscana.html">GIO TOSCANA</a></li>
               </ul>
             </li>
             <li>
               <h5>EXPERIENCES</h5>
               <ul>
-                <li><a href="#">GIO RANCH</a></li>
-                <li><a href="#">GIO MORE</a></li>
+                <li><a href="gio-ranch.html">GIO RANCH</a></li>
+                <li><a href="gio-more.html">GIO MORE</a></li>
               </ul>
             </li>
             <li>
               <h5>EXPLORE</h5>
               <ul>
-                <li><a href="#">GIO WARE</a></li>
-                <li><a href="#">OUR STORY</a></li>
+                <li><a href="gio-ware.html">GIO WARE</a></li>
+                <li><a href="our-story.html">OUR STORY</a></li>
               </ul>
             </li>
             <li>
               <h5>CONNECT</h5>
               <ul>
-                <li><a href="#">FACEBOOK</a></li>
-                <li><a href="#">INSTAGRAM</a></li>
+                <li><a href="https://www.facebook.com/people/Giovanni-Poli/100069096681285/" target="_blank">FACEBOOK</a></li>
+                <li><a href="https://www.instagram.com/giovannipoli_official/" target="_blank">INSTAGRAM</a></li>
                 <li><a href="#">WHATSAPP</a></li>
               </ul>
             </li>
@@ -203,6 +291,7 @@
               </ul>
             </li>
           </ul>
+        </div>
         </div>
       </div>
       <div class="footer__bottom">
@@ -219,22 +308,143 @@
             </div>
             <ul class="footer__bottom-container-links">
               <li>
-                <a href="#">PRIVACY POLICY</a>
+                <a href="privacy-policy.html">PRIVACY POLICY</a>
               </li>
               <li>
-                <a href="#">COOKIE POLICY</a>
+                <a href="cookie-policy.html">COOKIE POLICY</a>
               </li>
               <li>
-                <a href="#">TERMS & CONDITIONS</a>
+                <a href="terms-and-conditions.html">TERMS & CONDITIONS</a>
               </li>
               <li>
-                <a href="#">PAYMENT TERMS</a>
+                <a href="payment-terms.html">PAYMENT TERMS</a>
               </li>
               <li>
-                <a href="#">LEGAL NOTICE</a>
+                <a href="legal-notice.html">LEGAL NOTICE</a>
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Gio Roma Explore -->
+    <div id="modal-gio-roma-explore" class="slide-modal">
+      <button class="slide-modal__close">
+        <i class="icon-close"></i>
+      </button>
+      <div class="slide-modal__content container-center">
+        <div class="slide-modal__body room-detail-modal">
+          <div class="row gx-5">
+            <div class="col-12 col-md-8">
+              <h3 class="title">GIO ROMA</h3>
+          <h4 class="subtitle">
+            1 BEDROOM • 1 BEDROOM <br />
+            • 60 M2 • SLEEPS 2
+          </h4>
+
+        
+
+          <hr class="separator" />
+
+          <h4>GROUND FLOOR</h4>
+
+          <div class="features-list">
+            <h5>Fully Equipped Luxury Kitchen</h5>
+            <ul>
+              <li>Dishwasher</li>
+              <li>Fridge with freezer</li>
+              <li>Microwave combination oven</li>
+              <li>Kettle</li>
+              <li>Nespresso coffee machine</li>
+              <li>French press</li>
+              <li>Italian percolator</li>
+              <li>Toaster</li>
+              <li>Induction cooking plate with built in ventilation</li>
+              <li>Dining table</li>
+              <li>Pots, pans, plates, glasses and cutlery</li>
+            </ul>
+
+            <h5>Cozy and Comfortable Living Room</h5>
+            <ul>
+              <li>Luxurious queen size sofa 140X200 cm</li>
+              <li>Game table</li>
+              <li>Smart TV</li>
+              <li>Marshall Bluetooth Speaker</li>
+            </ul>
+
+            <h5>Guest WC</h5>
+            <ul>
+              <li>WC</li>
+              <li>Washbasin</li>
+              <li>Towels</li>
+            </ul>
+
+            <h5>Laundry</h5>
+            <ul>
+              <li>Washing machine</li>
+              <li>Drier</li>
+              <li>Iron & Ironing board</li>
+              <li>Laundry hanger</li>
+              <li>Vacuum cleaner</li>
+            </ul>
+          </div>
+
+          <h4>FIRST FLOOR</h4>
+
+          <div class="features-list">
+            <h5>Spacious Bedroom</h5>
+            <ul>
+              <li>King size bed (180 x 200 cm)</li>
+              <li>Feather duvet & 4 feather pillows</li>
+              <li>100% Egyptian cotton bed linen</li>
+              <li>Closet area & carry-on suitcase stowage for two</li>
+              <li>Day-bed</li>
+              <li>Safe</li>
+            </ul>
+
+            <h5>Modern Master Bathroom</h5>
+            <ul>
+              <li>Large rain shower</li>
+              <li>WC and Bidet</li>
+              <li>His and hers wash basin</li>
+              <li>
+                Ortigia toiletries (shampoo, conditioner, body wash and
+                moisturiser)
+              </li>
+              <li>Radiator with incorporated towel hangers</li>
+              <li>Hairdryer</li>
+              <li>Towels</li>
+            </ul>
+          </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="description">
+            <p>
+              Thoughtfully designed for discerning travelers, the loft unfolds
+              across two refined levels. The ground floor includes a stylish
+              living area seamlessly connected to a fully equipped modern
+              kitchen—an inviting space to unwind after exploring the Eternal
+              City. A sculptural suspended mesh copper staircase leads to the
+              upper level, where a serene bedroom and a spacious en-suite
+              bathroom create a haven of quiet, contemporary luxury.
+            </p>
+          </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Gio Roma Floor Plan -->
+    <div id="modal-gio-roma-floor-plan" class="slide-modal" style="background-color: #80765D;">
+      <button class="slide-modal__close">
+        <i class="icon-close"></i>
+      </button>
+      <div class="slide-modal__content container-center">
+        <div class="slide-modal__body">
+          <img src="assets/images/gio-roma/gio-roma-hero-floor-plan.png" alt="Floow Plan" style="width: 100%; display: block;" />
         </div>
       </div>
     </div>
