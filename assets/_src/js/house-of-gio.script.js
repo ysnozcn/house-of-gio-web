@@ -872,7 +872,7 @@ const GLOBAL = {
 
     // Animation for products
     gsap.from(".product-item", {
-      y: 100,
+      y: -10,
       opacity: 0,
       duration: 1.5,
       stagger: 0.3,
@@ -954,9 +954,6 @@ const GLOBAL = {
       const $modal = $basket.find(".product-basket__modal");
 
       $basket.addClass("open");
-      // Explicitly set display block first before animation if needed,
-      // but class 'open' usually handles display.
-      // We animate the modal sliding in.
 
       gsap.to($modal, {
         x: "0%",

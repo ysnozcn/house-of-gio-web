@@ -57,9 +57,17 @@ module.exports = {
           },
         ],
       },
-      // Fonts/Images if referenced in CSS
+      // Images
       {
-        test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "images/[name][ext]",
+        },
+      },
+      // Fonts
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
         generator: {
           filename: "fonts/[name][ext]",
