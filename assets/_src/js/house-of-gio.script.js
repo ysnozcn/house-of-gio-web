@@ -48,6 +48,7 @@ const GLOBAL = {
     GLOBAL.RanchCardsSlider();
     GLOBAL.ProductSlider();
     GLOBAL.Product.init();
+    GLOBAL.AboutUs();
   },
 
   FooterSlider: () => {
@@ -1231,6 +1232,59 @@ const GLOBAL = {
         },
       });
     },
+  },
+  AboutUs: () => {
+    const section = document.querySelector(".about-us-page");
+    if (!section) return;
+
+    // Timeline for sequence
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".about-us-page",
+        start: "top 60%",
+        end: "bottom bottom",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // 1. Top Text (Title + Intro)
+    tl.fromTo(
+      [".about-us-page__title", ".about-us-page__intro"],
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        stagger: 0.2,
+        ease: "power3.out",
+      },
+    );
+
+    // 2. Photo (Fade In)
+    tl.fromTo(
+      ".about-us-page__image-wrapper",
+      { opacity: 0, scale: 0.95 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 1.5,
+        ease: "power2.out",
+      },
+      "-=0.5", // Overlap slightly with text
+    );
+
+    // 3. Side Text (Slide in from right)
+    tl.fromTo(
+      ".about-us-page__text-wrapper",
+      { x: 50, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
+      },
+      "-=0.8", // Overlap with image appearance
+    );
   },
 };
 
