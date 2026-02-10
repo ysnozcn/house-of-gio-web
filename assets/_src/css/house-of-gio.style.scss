@@ -954,7 +954,7 @@ body {
 .room-flor-plan {
   width: 100%;
   height: 90px;
-  background-image: url(../../images/gio-roma/room-flor-plan.jpg);
+  background-image: url(../images/gio-roma/room-flor-plan.jpg);
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -1907,7 +1907,7 @@ body {
   .slide-type-1 {
     color: #3c3e41;
     &--theme-1 {
-      background-image: url("../../images/team-bg.jpg");
+      background-image: url("../images/team-bg.jpg");
       color: #fff !important;
 
       .slide-title {
@@ -2172,7 +2172,7 @@ body {
     }
 
     .slide-content-card {
-      background-image: url("../../images/card-bg.jpg");
+      background-image: url("../images/card-bg.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -2465,39 +2465,39 @@ body {
       transition: transform 0.6s ease;
 
       &.bg-honey-1 {
-        background-image: url(../../images/card-bg-honey-1.jpg);
+        background-image: url(../images/card-bg-honey-1.jpg);
       }
 
       &.bg-honey-2 {
-        background-image: url(../../images/card-bg-honey-2.jpg);
+        background-image: url(../images/card-bg-honey-2.jpg);
       }
 
       &.bg-product-1 {
-        background-image: url(../../images/product-bg-1.jpg);
+        background-image: url(../images/product-bg-1.jpg);
       }
 
       &.bg-product-2 {
-        background-image: url(../../images/product-bg-2.jpg);
+        background-image: url(../images/product-bg-2.jpg);
       }
 
       &.bg-product-3 {
-        background-image: url(../../images/product-bg-3.jpg);
+        background-image: url(../images/product-bg-3.jpg);
       }
 
       &.bg-product-4 {
-        background-image: url(../../images/product-bg-4.jpg);
+        background-image: url(../images/product-bg-4.jpg);
       }
       &.bg-massage {
-        background-image: url(../../images/bg-massage.jpg);
+        background-image: url(../images/bg-massage.jpg);
       }
       &.bg-yoga {
-        background-image: url(../../images/bg-yoga.jpg);
+        background-image: url(../images/bg-yoga.jpg);
       }
       &.bg-photo {
-        background-image: url(../../images/bg-photo.jpg);
+        background-image: url(../images/bg-photo.jpg);
       }
       &.bg-wedding {
-        background-image: url(../../images/bg-wedding.jpg);
+        background-image: url(../images/bg-wedding.jpg);
       }
     }
 
@@ -3055,7 +3055,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: #eae8e4;
-    background-image: url(../../images/products/product-detail-oil-bg.jpg);
+    background-image: url(../images/products/product-detail-oil-bg.jpg);
     background-position: bottom center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -3871,7 +3871,7 @@ body {
 // Product Type 2 - Honey
 .product-detail.product-type-2 {
   &::before {
-    background-image: url(../../images/products/product-detail-honey-bg.jpg);
+    background-image: url(../images/products/product-detail-honey-bg.jpg);
   }
   .product-detail__wrapper {
     bottom: 25%;

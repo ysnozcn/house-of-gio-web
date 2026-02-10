@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack serve --mode development",
     "build": "webpack --mode production",
+    "start": "npx -y serve .",
     "watch": "webpack serve --watch --mode development"
   },
   "author": "",
@@ -24,6 +25,7 @@
     "postcss-preset-env": "^10.6.0",
     "sass": "^1.97.1",
     "sass-loader": "^16.0.6",
+    "serve": "^14.2.5",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.1",
     "webpack": "^5.104.1",
