@@ -1,3 +1,9 @@
+// Force scroll to top on every page load (prevents text overlap on refresh)
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
 // Import jQuery and expose to window
 import $ from "jquery";
 window.jQuery = $;
@@ -39,6 +45,7 @@ const GLOBAL = {
     GLOBAL.MobileMenu();
     GLOBAL.DesktopMenu();
     GLOBAL.Home();
+    GLOBAL.HomeVideoBanner();
     GLOBAL.Form();
     GLOBAL.GallerySlider();
     GLOBAL.InvestmentSlider();
@@ -361,6 +368,196 @@ const GLOBAL = {
         }
       });
     }
+  },
+
+  HomeVideoBanner: () => {
+    const section = document.querySelector(".home-video-banner");
+    if (!section) return;
+
+    const video = section.querySelector(".home-video-banner__video");
+    const text1 = document.querySelector(".home-video-banner__text--1");
+    const text2 = document.querySelector(".home-video-banner__text--2");
+
+    if (!video) return;
+
+    let src = video.currentSrc || video.src;
+
+    // ── Helper: one-time event listener ──
+    function once(el, event, fn, opts) {
+      var onceFn = function (e) {
+        el.removeEventListener(event, onceFn);
+        fn.apply(this, arguments);
+      };
+      el.addEventListener(event, onceFn, opts);
+      return onceFn;
+    }
+
+    // ── iOS touch activation ──
+    once(document.documentElement, "touchstart", function (e) {
+      video.play();
+      video.pause();
+    });
+
+    // ── Ensure texts start hidden ──
+    gsap.set([text1, text2], {
+      opacity: 0,
+      filter: "blur(16px)",
+      visibility: "hidden",
+    });
+
+    // Track whether each text has been shown at least once
+    let text1Shown = false;
+    let text2Shown = false;
+
+    // ── Reference to the timeline (needs to be rebuilt after blob) ──
+    let tl = null;
+
+    function buildTimeline() {
+      // Kill old timeline if exists
+      if (tl) {
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
+      }
+
+      tl = gsap.timeline({
+        defaults: { duration: 1 },
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          onUpdate: (self) => {
+            // Debug log
+            console.log(
+              `[VIDEO] scroll: ${(self.progress * 100).toFixed(1)}% | currentTime: ${video.currentTime.toFixed(2)}s / ${video.duration.toFixed(2)}s`,
+            );
+          },
+        },
+      });
+
+      tl.fromTo(
+        video,
+        { currentTime: 0 },
+        { currentTime: video.duration || 1 },
+      );
+
+      console.log(
+        `[VIDEO] Timeline built — duration: ${video.duration.toFixed(2)}s`,
+      );
+    }
+
+    // ── Build timeline when metadata is ready ──
+    if (video.readyState >= 1) {
+      buildTimeline();
+    } else {
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          buildTimeline();
+        },
+        { once: true },
+      );
+    }
+
+    // ── Text overlay animations ──
+
+    // Text 1: Animate in on page load
+    gsap.set(text1, { visibility: "visible" });
+    gsap.to(text1, {
+      opacity: 1,
+      filter: "blur(0px)",
+      scale: 1,
+      duration: 1.2,
+      delay: 0.5,
+      ease: "power2.out",
+    });
+
+    // Text 1: FadeOut at 10%-20% — scrub reverses naturally on back-scroll
+    gsap.fromTo(
+      text1,
+      { opacity: 1, filter: "blur(0px)", scale: 1 },
+      {
+        opacity: 0,
+        filter: "blur(16px)",
+        scale: 0.95,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: section,
+          start: "10% top",
+          end: "20% top",
+          scrub: true,
+        },
+      },
+    );
+
+    // Text 2: FadeIn at 50%-60% — scrub reverses naturally
+    gsap.set(text2, { visibility: "visible" });
+    gsap.fromTo(
+      text2,
+      { opacity: 0, filter: "blur(16px)", scale: 1.05 },
+      {
+        opacity: 1,
+        filter: "blur(0px)",
+        scale: 1,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: section,
+          start: "50% top",
+          end: "60% top",
+          scrub: true,
+        },
+      },
+    );
+
+    // Text 2: FadeOut at 80%-90% — scrub reverses naturally
+    gsap.fromTo(
+      text2,
+      { opacity: 1, filter: "blur(0px)", scale: 1 },
+      {
+        opacity: 0,
+        filter: "blur(16px)",
+        scale: 0.95,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: section,
+          start: "80% top",
+          end: "90% top",
+          scrub: true,
+        },
+      },
+    );
+
+    // ── Blob fetch for smoother frame-by-frame scrubbing ──
+    setTimeout(function () {
+      if (window["fetch"]) {
+        fetch(src)
+          .then((response) => response.blob())
+          .then((response) => {
+            var blobURL = URL.createObjectURL(response);
+
+            var t = video.currentTime;
+            once(document.documentElement, "touchstart", function (e) {
+              video.play();
+              video.pause();
+            });
+
+            video.setAttribute("src", blobURL);
+            video.currentTime = t + 0.01;
+
+            // Rebuild timeline after blob loads new metadata
+            video.addEventListener(
+              "loadedmetadata",
+              () => {
+                console.log(
+                  `[VIDEO] Blob loaded — rebuilding timeline, duration: ${video.duration.toFixed(2)}s`,
+                );
+                buildTimeline();
+              },
+              { once: true },
+            );
+          });
+      }
+    }, 1000);
   },
 
   SlideOverlay: () => {

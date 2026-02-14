@@ -885,6 +885,136 @@ body {
   }
 }
 
+// ─── Home Video Banner (Scroll-Driven) ───
+.home-video-banner {
+  position: relative;
+  width: 100%;
+  // scroll runway for the video scrub + text animations
+  height: 300vh;
+  background-color: #000;
+  z-index: 1;
+
+  &__video-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  &__video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  // shared text overlay base
+  &__text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    // start invisible, GSAP controls these
+    opacity: 0;
+    filter: blur(16px);
+
+    .container {
+      max-width: 1200px;
+      padding: 2rem;
+    }
+
+    // allow click on buttons when visible
+    a {
+      pointer-events: auto;
+    }
+  }
+
+  &__top-title {
+    display: block;
+    font-size: $font24;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    @include e200;
+  }
+
+  &__title {
+    display: block;
+    @include e200;
+    font-size: $font36;
+    text-transform: uppercase;
+
+    @include lg {
+      font-size: $font96;
+    }
+  }
+
+  &__subtitle {
+    max-width: 966px;
+    margin: 0 auto;
+    font-size: $font18;
+
+    @include lg {
+      font-size: $font24;
+    }
+  }
+
+  &__description {
+    max-width: 966px;
+    margin: 0 auto;
+    font-size: $font16;
+
+    @include lg {
+      font-size: $font18;
+    }
+  }
+
+  &__btn {
+    display: inline-block;
+    @include e200;
+    font-size: $font24;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #fff;
+    @include e1000;
+  }
+}
+
+// ─── Sections after video banner: scroll OVER the fixed video ───
+.home-video-banner ~ .section,
+.home-video-banner ~ .section-about-text,
+.home-video-banner ~ .homepage-product-items,
+.home-video-banner ~ .homepage-founder {
+  position: relative;
+  z-index: 2;
+}
+
 .section-about-text {
   width: 100%;
   background-color: $bg-light;
@@ -998,6 +1128,7 @@ body {
   height: 700px;
   display: flex;
   flex-direction: column;
+  background-color: #eae8e4;
 
   @include lg {
     flex-direction: row;
@@ -2595,6 +2726,8 @@ body {
 
 .footer {
   width: 100%;
+  position: relative;
+  z-index: 10;
 
   &__main-menu {
     background-color: #8c8672; // Custom brown/olive from design
