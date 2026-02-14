@@ -1038,34 +1038,50 @@ body {
     &-title {
       display: block;
       @include e200;
-      font-size: $font24;
+      font-size: $font16;
       opacity: 0;
       margin-bottom: 30px;
       @include e1000;
+
+      @include lg {
+        font-size: $font24;
+      }
     }
     &-content {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      font-size: $font48;
+      font-size: $font24;
       font-family: $font-secondary;
       max-width: 1000px;
       margin: 0 auto;
+
+      @include lg {
+        font-size: $font48;
+      }
 
       p {
         margin-bottom: 16px;
       }
 
       span {
-        font-size: $font24;
+        font-size: $font16;
         font-family: $font-primary;
+
+        @include lg {
+          font-size: $font24;
+        }
       }
 
       .text-normal {
-        font-size: $font24;
+        font-size: $font16;
         font-family: $font-primary;
         max-width: 970px;
         margin: 0 auto;
+
+        @include lg {
+          font-size: $font24;
+        }
       }
     }
   }

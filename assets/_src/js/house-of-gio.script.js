@@ -1,4 +1,3 @@
-// Force scroll to top on every page load (prevents text overlap on refresh)
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
