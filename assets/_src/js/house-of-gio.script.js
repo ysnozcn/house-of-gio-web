@@ -295,8 +295,7 @@ const GLOBAL = {
               },
               slideChangeTransitionEnd: function () {
                 const prevSlide = this.slides[this.previousIndex];
-                // Reset previous slide after transition finishes so it's ready for next visit
-                // Only reset if it's not the active one (just in case of weird index states)
+
                 if (this.activeIndex !== this.previousIndex) {
                   resetSlide(prevSlide);
                 }
@@ -371,13 +370,21 @@ const GLOBAL = {
 
   HomeVideoBanner: () => {
     const section = document.querySelector(".home-video-banner");
-    if (!section) return;
+    if (!section) {
+      const loader = document.getElementById("pageLoader");
+      if (loader) loader.classList.add("loaded");
+      return;
+    }
 
     const video = section.querySelector(".home-video-banner__video");
     const text1 = document.querySelector(".home-video-banner__text--1");
     const text2 = document.querySelector(".home-video-banner__text--2");
 
-    if (!video) return;
+    if (!video) {
+      const loader = document.getElementById("pageLoader");
+      if (loader) loader.classList.add("loaded");
+      return;
+    }
 
     let src = video.currentSrc || video.src;
 
@@ -397,22 +404,18 @@ const GLOBAL = {
       video.pause();
     });
 
-    // ── Ensure texts start hidden ──
     gsap.set([text1, text2], {
       opacity: 0,
       filter: "blur(16px)",
       visibility: "hidden",
     });
 
-    // Track whether each text has been shown at least once
     let text1Shown = false;
     let text2Shown = false;
 
-    // ── Reference to the timeline (needs to be rebuilt after blob) ──
     let tl = null;
 
     function buildTimeline() {
-      // Kill old timeline if exists
       if (tl) {
         tl.scrollTrigger && tl.scrollTrigger.kill();
         tl.kill();
@@ -460,16 +463,28 @@ const GLOBAL = {
 
     // ── Text overlay animations ──
 
-    // Text 1: Animate in on page load
-    gsap.set(text1, { visibility: "visible" });
-    gsap.to(text1, {
-      opacity: 1,
-      filter: "blur(0px)",
-      scale: 1,
-      duration: 1.2,
-      delay: 0.5,
-      ease: "power2.out",
-    });
+    function videoReady() {
+      const loader = document.getElementById("pageLoader");
+      if (loader && !loader.classList.contains("loaded")) {
+        loader.classList.add("loaded");
+        startAnimations();
+      } else if (!loader) {
+        startAnimations();
+      }
+    }
+
+    function startAnimations() {
+      // Text 1: Animate in on page load
+      gsap.set(text1, { visibility: "visible" });
+      gsap.to(text1, {
+        opacity: 1,
+        filter: "blur(0px)",
+        scale: 1,
+        duration: 1.2,
+        delay: 0.5,
+        ease: "power2.out",
+      });
+    }
 
     // Text 1: FadeOut at 10%-20% — scrub reverses naturally on back-scroll
     gsap.fromTo(
@@ -551,12 +566,19 @@ const GLOBAL = {
                   `[VIDEO] Blob loaded — rebuilding timeline, duration: ${video.duration.toFixed(2)}s`,
                 );
                 buildTimeline();
+                videoReady();
               },
               { once: true },
             );
+          })
+          .catch((err) => {
+            console.error("Video fetch error: ", err);
+            videoReady();
           });
+      } else {
+        videoReady();
       }
-    }, 1000);
+    }, 10); // Decreased timeout to avoid forcing minimum wait time if possible, let fetch dictate unless network is fast
   },
 
   SlideOverlay: () => {
@@ -684,7 +706,7 @@ const GLOBAL = {
         end: "+=300",
         scrub: 1,
       },
-      height: "70vh", // Reduces height from 100vh
+      height: "70vh",
       ease: "none",
     });
 
@@ -700,7 +722,7 @@ const GLOBAL = {
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".homepage-founder",
-          start: "top 60%", // Start earlier so it's visible when content animates
+          start: "top 60%",
           toggleActions: "play none none reverse",
         },
       },
