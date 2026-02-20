@@ -831,45 +831,31 @@ const GLOBAL = {
       },
     );
 
-    // Product Items Section: Entrance Animation
+    // Product Items Section: Scroll-driven Pin & Scale Animation
+    const section = document.querySelector(".homepage-product-items");
     const productItems = gsap.utils.toArray(".homepage-product-items__item");
 
-    // 1. Kartların kendi girişi: Çok temiz, basit bir yukarı kayıp belirmesi (Fade & Y)
-    gsap.from(productItems, {
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".homepage-product-items",
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-      },
-    });
+    if (productItems.length > 1) {
+      const item1 = productItems[0];
+      const item2 = productItems[1];
 
-    // 2. BG İmaj Parallax & Zoom efekti: Asıl "wow" etkisini resimler üzerinde bırakıyoruz
-    productItems.forEach((item) => {
-      const bgImg = item.querySelector(".homepage-product-items__bg img");
-      if (bgImg) {
-        // Resim %30 büyük başlar, hem scale düşer hem de Y ekseninde (Parallax) kayar
-        gsap.fromTo(
-          bgImg,
-          { scale: 1.3, yPercent: -15 },
-          {
-            scale: 1, // Kendi boyutuna nazikçe oturur
-            yPercent: 10, // Kapsayıcı içerisinde yukarıdan aşağıya parallax akışı
-            ease: "none",
-            scrollTrigger: {
-              trigger: item,
-              start: "top bottom", // Kart ekrana girer girmez başla
-              end: "bottom top", // Ekranda çıktığında bitir
-              scrub: 1, // Scroll yaptıkça yumuşak tepki ver
-            },
+      // Başlangıç değerleri: Sağdaki küçük başlar
+      gsap.set(item2, { scale: 0.5 });
+
+      // Sticky (Pinned) animasyon kurgusu
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top", // Bölüm ekrana tam oturduğunda sabitlenir
+            end: "+=1200", // 1200px aşağı kaydırma süresince çalışır
+            scrub: 1, // Akıcı scroll ilerleyişi
+            pin: true, // Bölümü sticky/yapışkan yapar
           },
-        );
-      }
-    });
+        })
+        .to(item1, { scale: 0.5, ease: "power1.inOut" }, 0)
+        .to(item2, { scale: 1, ease: "power1.inOut" }, 0);
+    }
 
     // Product Items Logos: Blur Entrance
     gsap.fromTo(

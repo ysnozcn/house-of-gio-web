@@ -1178,10 +1178,12 @@ body {
 
 .homepage-product-items {
   width: 100%;
-  max-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #eae8e4;
+  background-color: #8b8884; /* Screenshot ile uyumlu nötr bir gri */
+  align-items: center;
+  justify-content: center;
 
   @include lg {
     flex-direction: row;
@@ -1195,7 +1197,6 @@ body {
     overflow: hidden;
     display: block; // Since it's an anchor tag
     text-decoration: none;
-    aspect-ratio: 1/1;
 
     @include lg {
       height: 100%;
