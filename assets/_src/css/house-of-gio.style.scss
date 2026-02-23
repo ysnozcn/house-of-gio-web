@@ -210,12 +210,12 @@ body {
 
 .header {
   width: 100%;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   z-index: 1000;
   padding: 0.5rem 0;
-  background-color: #fff;
+  // background-color: #fff;
   @include e200;
 
   @include lg {
@@ -242,21 +242,21 @@ body {
   }
 
   &.sticky {
-    background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    // background-color: #fff;
+    // box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0;
 
     .header__logo {
       position: relative;
       width: 43.333px;
       height: 50px;
-      .light {
-        display: none;
-      }
+      // .light {
+      //   display: none;
+      // }
 
-      .dark {
-        display: block;
-      }
+      // .dark {
+      //   display: block;
+      // }
     }
   }
 
@@ -295,7 +295,7 @@ body {
     order: 2;
     z-index: 1000;
     position: relative;
-    border-bottom: 1px solid $color-primary;
+    border-bottom: 1px solid #fff;
     padding-bottom: 0.5rem;
 
     @include lg {
@@ -349,7 +349,7 @@ body {
 
     a {
       text-decoration: none;
-      color: $color-primary;
+      color: #fff;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
@@ -364,7 +364,7 @@ body {
       }
 
       &:hover {
-        color: $color-primary;
+        color: #cfcfcf;
       }
     }
   }
@@ -693,7 +693,7 @@ body {
       position: absolute;
       width: 100%;
       height: 2px;
-      background-color: #0c3253;
+      background-color: #fff;
       transition: all 0.3s ease;
       border-radius: 2px;
       transform-origin: center;
@@ -708,7 +708,7 @@ body {
     }
 
     &:hover span {
-      background-color: #0c3253;
+      background-color: #fff;
     }
 
     &.active {
