@@ -42,7 +42,15 @@ Swiper.use([
 ]);
 
 // Initialize a new Lenis instance for smooth scrolling
-const lenis = new Lenis();
+const lenis = new Lenis({
+  eventsTarget: document.documentElement,
+  prevent: (node) => {
+    return (
+      node.classList.contains("slide-modal__content") ||
+      node.closest(".slide-modal__content")
+    );
+  },
+});
 
 // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
 lenis.on("scroll", ScrollTrigger.update);

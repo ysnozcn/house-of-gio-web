@@ -3105,7 +3105,7 @@ body {
   &__content {
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3809,7 +3809,7 @@ body {
 
   @include lg {
     flex-direction: row;
-    height: 100%; /* Fill the slide-modal__body height */
+    height: 100%;
   }
 
   &__left {
