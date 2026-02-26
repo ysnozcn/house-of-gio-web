@@ -2392,7 +2392,8 @@ body {
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 3rem 1.5rem; // Adjusted padding
+      padding: 3rem 1.5rem;
+      padding-bottom: 5rem;
       position: relative;
       color: #fff;
 
@@ -2500,6 +2501,8 @@ body {
         letter-spacing: 1px;
         cursor: pointer;
         opacity: 0.9;
+        position: absolute;
+        bottom: 3rem;
 
         &:hover {
           opacity: 1;

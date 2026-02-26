@@ -298,7 +298,7 @@ const GLOBAL = {
             initialSlide: initialSlideIndex,
             direction: "horizontal",
             slidesPerView: 1,
-            speed: 2000,
+            speed: 1200,
             mousewheel: true,
             allowTouchMove: false,
             pagination: {
