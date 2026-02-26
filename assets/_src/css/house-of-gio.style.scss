@@ -21,6 +21,7 @@
 @import "bootstrap/scss/_variables";
 @import "bootstrap/scss/forms";
 @import "components/form-style";
+@import "lenis/dist/lenis.css";
 
 // Custom Row Gutter - Global Definition
 :root {
@@ -210,12 +211,16 @@ body {
 
 .header {
   width: 100%;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
   padding: 0.5rem 0;
-  // background-color: #fff;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.475) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
   @include e200;
 
   @include lg {
@@ -295,7 +300,7 @@ body {
     order: 2;
     z-index: 1000;
     position: relative;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid $color-primary;
     padding-bottom: 0.5rem;
 
     @include lg {
@@ -315,7 +320,7 @@ body {
     display: none;
     flex: 1;
     justify-content: flex-start;
-    font-family: $font-primary;
+    font-family: $font-secondary;
     @include lg {
       display: flex;
     }
@@ -349,7 +354,7 @@ body {
 
     a {
       text-decoration: none;
-      color: #fff;
+      color: $color-primary;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
@@ -364,7 +369,7 @@ body {
       }
 
       &:hover {
-        color: #cfcfcf;
+        color: $color-primary;
       }
     }
   }
@@ -693,7 +698,7 @@ body {
       position: absolute;
       width: 100%;
       height: 2px;
-      background-color: #fff;
+      background-color: #0c3253;
       transition: all 0.3s ease;
       border-radius: 2px;
       transform-origin: center;
@@ -708,7 +713,7 @@ body {
     }
 
     &:hover span {
-      background-color: #fff;
+      background-color: #0c3253;
     }
 
     &.active {
@@ -948,6 +953,8 @@ body {
     min-width: 100%;
     min-height: 100%;
     transform: translate(-50%, -50%);
+    object-fit: cover;
+    object-position: bottom;
   }
 
   &__overlay {
@@ -1092,6 +1099,7 @@ body {
       font-family: $font-secondary;
       max-width: 1000px;
       margin: 0 auto;
+      line-height: 1.2;
 
       @include lg {
         font-size: $font48;
@@ -1103,7 +1111,7 @@ body {
 
       span {
         font-size: $font16;
-        font-family: $font-primary;
+        font-family: $font-secondary;
 
         @include lg {
           font-size: $font24;
@@ -1479,9 +1487,9 @@ body {
 
 // About Us Page Styles
 .about-us-page {
-  padding-top: 15rem;
-  padding-bottom: 5rem;
-  min-height: 100vh;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  min-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   justify-content: center;

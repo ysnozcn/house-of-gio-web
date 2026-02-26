@@ -23,6 +23,9 @@ import {
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Import Lenis
+import Lenis from "lenis";
+
 // Import jQuery Validation
 import "jquery-validation";
 
@@ -37,6 +40,21 @@ Swiper.use([
   Controller,
   FreeMode,
 ]);
+
+// Initialize a new Lenis instance for smooth scrolling
+const lenis = new Lenis();
+
+// Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+lenis.on("scroll", ScrollTrigger.update);
+
+// Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+// This ensures Lenis's smooth scroll animation updates on each GSAP tick
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000); // Convert time from seconds to milliseconds
+});
+
+// Disable lag smoothing in GSAP to prevent any delay in scroll animations
+gsap.ticker.lagSmoothing(0);
 
 const GLOBAL = {
   Init: () => {
@@ -265,12 +283,22 @@ const GLOBAL = {
         }
       };
 
+      // Get initial slide from URL (e.g., ?page=2)
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = urlParams.get("page");
+      let initialSlideIndex = 0;
+      if (pageParam && !isNaN(pageParam)) {
+        // Assume page=2 means 2nd slide, so index 1
+        initialSlideIndex = Math.max(0, parseInt(pageParam, 10) - 1);
+      }
+
       if (isDesktop) {
         if (!fullpageSwiper) {
           fullpageSwiper = new Swiper(sliderSelector, {
+            initialSlide: initialSlideIndex,
             direction: "horizontal",
             slidesPerView: 1,
-            speed: 600,
+            speed: 2000,
             mousewheel: true,
             allowTouchMove: false,
             pagination: {
@@ -308,7 +336,7 @@ const GLOBAL = {
           fullpageSwiper.destroy(true, true);
           fullpageSwiper = null;
         }
-        handleLogo(0);
+        handleLogo(initialSlideIndex);
       }
     };
 
