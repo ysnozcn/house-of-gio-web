@@ -79,6 +79,7 @@ const GLOBAL = {
     GLOBAL.FooterSlider();
     GLOBAL.RanchCardsSlider();
     GLOBAL.ProductSlider();
+    GLOBAL.ProductModal();
     GLOBAL.Product.init();
     GLOBAL.AboutUs();
   },
@@ -355,53 +356,6 @@ const GLOBAL = {
     window.addEventListener("resize", () => {
       initSwiper();
     });
-
-    // Discover More Interaction
-
-    const $discoverBtns = $(".slide-type-4 .btn-link");
-
-    if ($discoverBtns.length) {
-      $discoverBtns.on("click", function () {
-        const $btn = $(this);
-        const $slide = $btn.closest(".slide-type-4");
-        const $list = $slide.find(".disover-more-list");
-        const $text = $slide.find(".disover-more-text");
-
-        $btn.css("display", "none");
-
-        // Animate Content In
-        if ($list.length) {
-          $list.css("display", "block");
-          gsap.fromTo(
-            $list[0],
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-          );
-        }
-
-        if ($text.length) {
-          $text.css("display", "block");
-          gsap.fromTo(
-            $text[0],
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: 0.1,
-            },
-          );
-        }
-
-        // Update Re-layout
-        if (fullpageSwiper) {
-          setTimeout(() => {
-            fullpageSwiper.update();
-          }, 500);
-        }
-      });
-    }
   },
 
   HomeVideoBanner: () => {
@@ -510,14 +464,18 @@ const GLOBAL = {
     }
 
     function startAnimations() {
-      // Text 1: Animate in on page load
+      // Text 1: Animate in when scrolled into view
       gsap.set(text1, { visibility: "visible" });
       gsap.to(text1, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 20%", // Animasyon section ekrana daha çok girdiğinde başlayacak
+          toggleActions: "play none none reverse",
+        },
         opacity: 1,
         filter: "blur(0px)",
         scale: 1,
         duration: 1.2,
-        delay: 0.5,
         ease: "power2.out",
       });
     }
@@ -679,6 +637,158 @@ const GLOBAL = {
         }
       });
     });
+
+    // Auto-open slide-modal from URL ?modal=<id>
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalParam = urlParams.get("modal");
+    if (modalParam) {
+      const modal = document.getElementById(modalParam);
+      if (modal && modal.classList.contains("slide-modal")) {
+        gsap.set(modal, { visibility: "visible", scale: 0.8, opacity: 0 });
+        document.querySelector(".header")?.classList.add("opened-modal");
+
+        gsap.to(modal, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.7,
+          ease: "expo.out",
+        });
+
+        const body = modal.querySelector(".slide-modal__body");
+        if (body) {
+          gsap.fromTo(
+            body,
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              delay: 0.2,
+              ease: "power2.out",
+            },
+          );
+        }
+      }
+    }
+  },
+
+  ProductModal: () => {
+    const triggers = document.querySelectorAll("[data-product-modal]");
+    const closeButtons = document.querySelectorAll(".product-modal__close");
+    const productModalSwipers = {};
+
+    if (!triggers.length) return;
+
+    const initModalSwiper = (modal) => {
+      const modalId = modal.id;
+      const sliderEl = modal.querySelector(".product-detail__slider");
+      if (!sliderEl || productModalSwipers[modalId]) return;
+
+      productModalSwipers[modalId] = new Swiper(sliderEl, {
+        slidesPerView: 1.2,
+        centeredSlides: true,
+        spaceBetween: 30,
+        loop: false,
+        speed: 600,
+        allowTouchMove: true,
+        breakpoints: {
+          992: {
+            slidesPerView: "auto",
+            centeredSlides: false,
+            spaceBetween: 80,
+            allowTouchMove: false,
+            loop: false,
+          },
+        },
+      });
+
+      // // Animate product items
+      // const productItems = modal.querySelectorAll(".product-item");
+      // if (productItems.length) {
+      //   gsap.from(productItems, {
+      //     y: -10,
+      //     opacity: 0,
+      //     duration: 1.5,
+      //     stagger: 0.3,
+      //     ease: "power3.out",
+      //     delay: 0.3,
+      //   });
+      // }
+    };
+
+    triggers.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = btn.getAttribute("data-product-modal");
+        const modal = document.getElementById(targetId);
+
+        if (modal) {
+          // Animate in
+          gsap.set(modal, { visibility: "visible", scale: 0.95, opacity: 0 });
+          document.querySelector(".header")?.classList.add("opened-modal");
+
+          gsap.to(modal, {
+            scale: 1,
+            opacity: 1,
+            duration: 0.7,
+            ease: "expo.out",
+            onComplete: () => {
+              // Init swiper after modal is visible
+              initModalSwiper(modal);
+            },
+          });
+        }
+      });
+    });
+
+    closeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const modal = btn.closest(".product-modal");
+        if (modal) {
+          // Destroy swiper on close
+          const modalId = modal.id;
+          if (productModalSwipers[modalId]) {
+            productModalSwipers[modalId].destroy(true, true);
+            delete productModalSwipers[modalId];
+          }
+
+          // Animate out
+          gsap.to(modal, {
+            scale: 0.95,
+            opacity: 0,
+            duration: 0.6,
+            ease: "expo.inOut",
+            onComplete: () => {
+              gsap.set(modal, { visibility: "hidden" });
+              document
+                .querySelector(".header")
+                ?.classList.remove("opened-modal");
+            },
+          });
+        }
+      });
+    });
+
+    // Auto-open product-modal from URL ?modal=<id>
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalParam = urlParams.get("modal");
+    if (modalParam) {
+      const modal = document.getElementById(modalParam);
+      if (modal && modal.classList.contains("product-modal")) {
+        gsap.set(modal, { visibility: "visible", scale: 0.95, opacity: 0 });
+        document.querySelector(".header")?.classList.add("opened-modal");
+
+        gsap.to(modal, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.7,
+          ease: "expo.out",
+          onComplete: () => {
+            initModalSwiper(modal);
+          },
+        });
+      }
+    }
   },
 
   Home: () => {
