@@ -43,6 +43,8 @@ Swiper.use([
 
 // Initialize a new Lenis instance for smooth scrolling
 const lenis = new Lenis({
+  lerp: 0.06,
+  wheelMultiplier: 0.7,
   eventsTarget: document.documentElement,
   prevent: (node) => {
     return (
@@ -400,9 +402,6 @@ const GLOBAL = {
       visibility: "hidden",
     });
 
-    let text1Shown = false;
-    let text2Shown = false;
-
     let tl = null;
 
     function buildTimeline() {
@@ -451,89 +450,93 @@ const GLOBAL = {
       );
     }
 
-    // ── Text overlay animations ──
+    // ── Text overlay animations (single ScrollTrigger to prevent overlap) ──
 
-    function videoReady() {
+    // Use a single ScrollTrigger with onUpdate to control text visibility
+    // based on exact scroll progress — no lag, no overlap possible
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        const p = self.progress * 100; // 0-100
+
+        // Text 1: visible from 0% to 25%, fades out 10%-25%
+        if (p < 10) {
+          // Fully visible
+          gsap.set(text1, {
+            visibility: "visible",
+            opacity: 1,
+            filter: "blur(0px)",
+            scale: 1,
+          });
+        } else if (p >= 10 && p < 25) {
+          // Fading out
+          const fadeProgress = (p - 10) / 15; // 0 to 1
+          gsap.set(text1, {
+            visibility: "visible",
+            opacity: 1 - fadeProgress,
+            filter: `blur(${fadeProgress * 16}px)`,
+            scale: 1 - fadeProgress * 0.05,
+          });
+        } else {
+          // Hidden
+          gsap.set(text1, {
+            visibility: "hidden",
+            opacity: 0,
+          });
+        }
+
+        // Text 2: fades in 45%-60%, visible 60%-80%, fades out 80%-95%
+        if (p < 45) {
+          // Hidden
+          gsap.set(text2, {
+            visibility: "hidden",
+            opacity: 0,
+          });
+        } else if (p >= 45 && p < 60) {
+          // Fading in
+          const fadeProgress = (p - 45) / 15; // 0 to 1
+          gsap.set(text2, {
+            visibility: "visible",
+            opacity: fadeProgress,
+            filter: `blur(${(1 - fadeProgress) * 16}px)`,
+            scale: 1.05 - fadeProgress * 0.05,
+          });
+        } else if (p >= 60 && p < 80) {
+          // Fully visible
+          gsap.set(text2, {
+            visibility: "visible",
+            opacity: 1,
+            filter: "blur(0px)",
+            scale: 1,
+          });
+        } else if (p >= 80 && p < 95) {
+          // Fading out
+          const fadeProgress = (p - 80) / 15; // 0 to 1
+          gsap.set(text2, {
+            visibility: "visible",
+            opacity: 1 - fadeProgress,
+            filter: `blur(${fadeProgress * 16}px)`,
+            scale: 1 - fadeProgress * 0.05,
+          });
+        } else {
+          // Hidden
+          gsap.set(text2, {
+            visibility: "hidden",
+            opacity: 0,
+          });
+        }
+      },
+    });
+
+    // ── Page loader helper ──
+    function hideLoader() {
       const loader = document.getElementById("pageLoader");
       if (loader && !loader.classList.contains("loaded")) {
         loader.classList.add("loaded");
-        startAnimations();
-      } else if (!loader) {
-        startAnimations();
       }
     }
-
-    function startAnimations() {
-      // Text 1: Animate in when scrolled into view
-      gsap.set(text1, { visibility: "visible" });
-      gsap.to(text1, {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 20%", // Animasyon section ekrana daha çok girdiğinde başlayacak
-          toggleActions: "play none none reverse",
-        },
-        opacity: 1,
-        filter: "blur(0px)",
-        scale: 1,
-        duration: 1.2,
-        ease: "power2.out",
-      });
-    }
-
-    // Text 1: FadeOut at 10%-20% — scrub reverses naturally on back-scroll
-    gsap.fromTo(
-      text1,
-      { opacity: 1, filter: "blur(0px)", scale: 1 },
-      {
-        opacity: 0,
-        filter: "blur(16px)",
-        scale: 0.95,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: section,
-          start: "10% top",
-          end: "20% top",
-          scrub: true,
-        },
-      },
-    );
-
-    // Text 2: FadeIn at 50%-60% — scrub reverses naturally
-    gsap.set(text2, { visibility: "visible" });
-    gsap.fromTo(
-      text2,
-      { opacity: 0, filter: "blur(16px)", scale: 1.05 },
-      {
-        opacity: 1,
-        filter: "blur(0px)",
-        scale: 1,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: section,
-          start: "50% top",
-          end: "60% top",
-          scrub: true,
-        },
-      },
-    );
-
-    // Text 2: FadeOut at 80%-90% — scrub reverses naturally
-    gsap.fromTo(
-      text2,
-      { opacity: 1, filter: "blur(0px)", scale: 1 },
-      {
-        opacity: 0,
-        filter: "blur(16px)",
-        scale: 0.95,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: section,
-          start: "80% top",
-          end: "90% top",
-          scrub: true,
-        },
-      },
-    );
 
     // ── Blob fetch for smoother frame-by-frame scrubbing ──
     setTimeout(function () {
@@ -560,17 +563,17 @@ const GLOBAL = {
                   `[VIDEO] Blob loaded — rebuilding timeline, duration: ${video.duration.toFixed(2)}s`,
                 );
                 buildTimeline();
-                videoReady();
+                hideLoader();
               },
               { once: true },
             );
           })
           .catch((err) => {
             console.error("Video fetch error: ", err);
-            videoReady();
+            hideLoader();
           });
       } else {
-        videoReady();
+        hideLoader();
       }
     }, 10); // Decreased timeout to avoid forcing minimum wait time if possible, let fetch dictate unless network is fast
   },

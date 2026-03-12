@@ -9,7 +9,9 @@
 @use "swiper/css/autoplay";
 @use "swiper/css/mousewheel";
 
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;700&family=Playfair+Display:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;700&display=swap");
+
+@import url("https://use.typekit.net/sut1nms.css");
 
 // Base
 @import "base/reset.css";
@@ -106,6 +108,10 @@ body {
 }
 .p-0 {
   padding: 0 !important;
+}
+
+.font-secondary {
+  font-family: $font-secondary !important;
 }
 
 // button
@@ -4144,7 +4150,7 @@ body {
     margin-bottom: 1.5rem;
     color: #333;
     letter-spacing: 1px;
-    font-weight: 400;
+    font-weight: 500;
     margin-top: 2rem;
   }
 
@@ -4346,5 +4352,246 @@ body {
     font-size: 0.85rem;
     color: #666;
     line-height: 1.5;
+  }
+}
+
+// About Modal
+.about-modal {
+  max-width: 1500px !important;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    @include lg {
+      margin-bottom: 3rem;
+    }
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: 2.5rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+
+    @include lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  &__subtitle {
+    font-family: $font-primary;
+    font-size: 0.9rem;
+    color: #666;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  &__hero {
+    max-width: 420px;
+    margin: 0 auto 2.5rem;
+
+    @include lg {
+      margin-bottom: 3.5rem;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  &__quote {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 3rem;
+
+    @include lg {
+      margin-bottom: 4rem;
+    }
+
+    p {
+      font-family: $font-primary;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+      font-weight: 400;
+
+      @include lg {
+        font-size: 1.25rem;
+        line-height: 1.8;
+      }
+    }
+  }
+
+  &__two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+    @include lg {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+  }
+
+  &__col {
+    p {
+      font-family: $font-primary;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #4a4a4a;
+      margin-bottom: 0;
+
+      @include lg {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  &__bottom {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    @include lg {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  &__bottom-image {
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  &__bottom-text {
+    padding-top: 0;
+  }
+
+  &__bottom-heading {
+    font-family: $font-secondary;
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+
+    @include lg {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__list {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem;
+
+    li {
+      font-family: $font-secondary !important;
+      font-size: 0.85rem !important;
+      color: #4a4a4a !important;
+      line-height: 1.6 !important;
+      margin-bottom: 0.1rem !important;
+      font-style: italic;
+
+      @include lg {
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+
+  &__description {
+    font-family: $font-primary;
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+    color: #4a4a4a !important;
+    margin-bottom: 1rem !important;
+
+    @include lg {
+      font-size: 0.9rem !important;
+    }
+  }
+
+  &__staytuned {
+    font-family: $font-secondary;
+    font-size: 1rem !important;
+    color: #333 !important;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+}
+
+// Book Now Modal
+.book-now-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
+
+  &__text {
+    font-family: $font-primary;
+    font-size: 1rem !important;
+    color: #333 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+    max-width: 400px;
+
+    @include lg {
+      font-size: 1.1rem !important;
+    }
+  }
+
+  &__phone {
+    font-family: $font-primary;
+    font-size: 1.2rem;
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: opacity 0.3s ease;
+
+    @include lg {
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__email {
+    font-family: $font-primary;
+    font-size: 1rem;
+    color: #333;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.5px;
+    display: block;
+    transition: opacity 0.3s ease;
+
+    @include lg {
+      font-size: 1.1rem;
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }
