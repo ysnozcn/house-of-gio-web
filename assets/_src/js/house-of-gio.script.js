@@ -84,6 +84,7 @@ const GLOBAL = {
     GLOBAL.ProductModal();
     GLOBAL.Product.init();
     GLOBAL.AboutUs();
+    GLOBAL.BookForm();
   },
 
   FooterSlider: () => {
@@ -1662,6 +1663,220 @@ const GLOBAL = {
       "-=0.8", // Overlap with image appearance
     );
   },
+  BookForm: () => {
+    const $forms = $("form.booking-form[data-post-request]");
+    if ($forms.length === 0) return;
+
+    const lang = document.documentElement.lang || "en";
+
+    const MESSAGES = {
+      en: {
+        required: "This field is required.",
+        email: "Please enter a valid email address.",
+        phone: "Please enter a valid phone number.",
+      },
+      it: {
+        required: "Questo campo è obbligatorio.",
+        email: "Inserisci un indirizzo email valido.",
+        phone: "Inserisci un numero di telefono valido.",
+      },
+    };
+
+    const strings = MESSAGES[lang] || MESSAGES.en;
+
+    // Counter buttons
+    document.querySelectorAll(".booking-form__counter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        const valueEl = document.getElementById(targetId);
+        if (!valueEl) return;
+        let current = parseInt(valueEl.textContent, 10) || 0;
+        if (btn.getAttribute("data-action") === "increase") {
+          valueEl.textContent = current + 1;
+        } else if (current > 0) {
+          valueEl.textContent = current - 1;
+        }
+        const hiddenInput = valueEl.closest(".booking-form__counter")
+          ?.parentElement?.querySelector("input[type='hidden']");
+        if (hiddenInput) hiddenInput.value = valueEl.textContent;
+      });
+    });
+
+    const showResult = ($form, type) => {
+      const $container = $form.closest(".container");
+      const $header = $container.find(".booking-modal__header");
+      const $result = $container.find(`.booking-form__result--${type}`);
+
+      gsap.to($form, {
+        opacity: 0,
+        y: -20,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: () => {
+          $form.hide();
+          $header.hide();
+          $result.css({ display: "flex", opacity: 0, y: 20 });
+          gsap.to($result, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        },
+      });
+    };
+
+    const resetToForm = ($btn) => {
+      const $container = $btn.closest(".container");
+      const $form = $container.find("form.booking-form");
+      const $header = $container.find(".booking-modal__header");
+      const $results = $container.find(".booking-form__result");
+
+      gsap.to($results, {
+        opacity: 0,
+        y: -20,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+          $results.hide();
+          $header.show();
+          $form.show().css({ opacity: 0, y: 20 });
+          gsap.to($form, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        },
+      });
+    };
+
+    const closeModal = ($btn) => {
+      const modal = $btn.closest(".slide-modal");
+      if (modal.length) {
+        gsap.to(modal[0], {
+          scale: 0.8,
+          opacity: 0,
+          duration: 0.6,
+          ease: "expo.inOut",
+          onComplete: () => {
+            gsap.set(modal[0], { visibility: "hidden" });
+            document.querySelector(".header")?.classList.remove("opened-modal");
+
+            const $container = modal.find(".container");
+            const $form = $container.find("form.booking-form");
+            const $header = $container.find(".booking-modal__header");
+            const $results = $container.find(".booking-form__result");
+            $results.hide();
+            $header.show();
+            $form.show().css({ opacity: 1, y: 0 });
+            $form[0]?.reset();
+            $form.find(".booking-form__counter-value").each(function () {
+              const isAdult = $(this).attr("id")?.includes("adult");
+              $(this).text(isAdult ? "1" : "0");
+            });
+            $form.find("input[name='adults']").val("1");
+            $form.find("input[name='children']").val("0");
+          },
+        });
+      }
+    };
+
+    // Result screen button handlers
+    $(document).on("click", "[data-action='try-again']", function () {
+      resetToForm($(this));
+    });
+    $(document).on("click", "[data-action='close-modal']", function () {
+      closeModal($(this));
+    });
+
+    $forms.each(function () {
+      const $form = $(this);
+      const postUrl = $form.attr("data-post-request");
+
+      const rules = {};
+      const messages = {};
+
+      $form.find("input.form-control, textarea.form-control").each(function () {
+        const name = $(this).attr("name");
+        if (!name) return;
+
+        const type = $(this).attr("type") || "text";
+
+        if (type === "email") {
+          rules[name] = { required: true, email: true };
+          messages[name] = { required: strings.required, email: strings.email };
+        } else if (type === "tel") {
+          rules[name] = { required: true };
+          messages[name] = { required: strings.phone };
+        } else if (type === "date") {
+          rules[name] = { required: false };
+        } else {
+          rules[name] = { required: true };
+          messages[name] = { required: strings.required };
+        }
+      });
+
+      $form.validate({
+        rules: rules,
+        messages: messages,
+        errorElement: "span",
+        errorClass: "error-message",
+        highlight: function (element) {
+          $(element).addClass("error");
+        },
+        unhighlight: function (element) {
+          $(element).removeClass("error");
+        },
+        errorPlacement: function (error, element) {
+          error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+          const $f = $(form);
+          const $btn = $f.find("button[type='submit']");
+          const originalText = $btn.text();
+
+          $btn.prop("disabled", true).text("Sending...");
+
+          const formData = {};
+          $f.find("input, textarea, select").each(function () {
+            const name = $(this).attr("name");
+            if (!name) return;
+
+            if ($(this).is(":checkbox")) {
+              if (!formData[name]) formData[name] = [];
+              if ($(this).is(":checked")) formData[name].push($(this).val());
+            } else {
+              formData[name] = $(this).val();
+            }
+          });
+
+          $.ajax({
+            url: postUrl,
+            type: "POST",
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function () {
+              form.reset();
+              $f.find(".booking-form__counter-value").each(function () {
+                const isAdult = $(this).attr("id")?.includes("adult");
+                $(this).text(isAdult ? "1" : "0");
+              });
+              $f.find("input[name='adults']").val("1");
+              $f.find("input[name='children']").val("0");
+              showResult($f, "success");
+            },
+            error: function () {
+              showResult($f, "fail");
+            },
+            complete: function () {
+              $btn.prop("disabled", false).text(originalText);
+            },
+          });
+        },
+      });
+    });
+  }
 };
 
 $(function () {

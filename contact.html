@@ -156,6 +156,12 @@
               <div class="col-12 col-lg-5">
                 <div class="simple-image-section__body">
                   <h3>Get in Touch</h3>
+                  <!-- book now buttons -->
+                  <a href="#" class="btn-book-now" data-modal-target="modal-booking">Book Now</a>
+                  <a href="#" class="btn-book-now" data-modal-target="modal-booking-2">Book Now 2</a>
+
+
+
                   <p>Contattaci per maggiori dettagli</p>
                   <a href="tel:+393489132457">
                     <i class="icon icon-phone"></i>
@@ -352,6 +358,218 @@
       </div>
     </div>
 
+
+    <!-- Booking Modal -->
+    <div id="modal-booking" class="slide-modal">
+      <button class="slide-modal__close">
+        <i class="icon-close"></i>
+      </button>
+      <div class="slide-modal__content container-center">
+        <div class="slide-modal__body text-start booking-modal">
+          <div class="container">
+            <div class="booking-modal__header">
+              <h1 class="booking-modal__title">FOR YOUR BOOKING</h1>
+            </div>
+
+            <form id="bookingForm" class="booking-form" data-post-request="https://www.test.com/bookingForm1">
+              <div class="booking-form__fields">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking-name">Name</label>
+                    <input type="text" id="booking-name" name="name" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking-lastname">Last Name</label>
+                    <input type="text" id="booking-lastname" name="lastname" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="booking-phone">Phone</label>
+                    <input type="tel" id="booking-phone" name="phone" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking-dob">Date of Birth</label>
+                    <input type="date" id="booking-dob" name="dob" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="booking-email">Email</label>
+                    <input type="email" id="booking-email" name="email" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking-height">Height</label>
+                    <input type="text" id="booking-height" name="height" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="booking-weight">Weight</label>
+                    <input type="text" id="booking-weight" name="weight" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="booking-form__experience">
+                  <label>Riding Experience</label>
+                  <div class="booking-form__experience-options">
+                    <label class="booking-form__checkbox">
+                      <input type="checkbox" name="experience" value="first-time" />
+                      <span>First-time rider</span>
+                    </label>
+                    <label class="booking-form__checkbox">
+                      <input type="checkbox" name="experience" value="beginner" />
+                      <span>Beginner</span>
+                    </label>
+                    <label class="booking-form__checkbox">
+                      <input type="checkbox" name="experience" value="intermediate" />
+                      <span>Intermediate</span>
+                    </label>
+                    <label class="booking-form__checkbox">
+                      <input type="checkbox" name="experience" value="advanced" />
+                      <span>Advanced</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="booking-form__bottom">
+                <div class="booking-form__bottom-item">
+                  <label for="booking-date">Date:</label>
+                  <input type="date" id="booking-date" name="booking_date" class="form-control" />
+                </div>
+                <div class="booking-form__bottom-item">
+                  <label>Adult:</label>
+                  <div class="booking-form__counter">
+                    <button type="button" class="booking-form__counter-btn" data-action="decrease" data-target="adult-count">−</button>
+                    <span class="booking-form__counter-value" id="adult-count">1</span>
+                    <button type="button" class="booking-form__counter-btn" data-action="increase" data-target="adult-count">+</button>
+                    <input type="hidden" name="adults" value="1" />
+                  </div>
+                </div>
+                <div class="booking-form__bottom-item">
+                  <label>Child:</label>
+                  <div class="booking-form__counter">
+                    <button type="button" class="booking-form__counter-btn" data-action="decrease" data-target="child-count">−</button>
+                    <span class="booking-form__counter-value" id="child-count">0</span>
+                    <button type="button" class="booking-form__counter-btn" data-action="increase" data-target="child-count">+</button>
+                    <input type="hidden" name="children" value="0" />
+                  </div>
+                </div>
+                <div class="booking-form__bottom-item">
+                  <button type="submit" class="booking-form__submit">SEND ENQUIRY</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="booking-form__result booking-form__result--success" style="display:none;">
+              <div class="booking-form__result-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="#2d6a4f" stroke-width="2"/><path d="M20 33l8 8 16-18" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <h2 class="booking-form__result-title">Booking Sent Successfully</h2>
+              <p class="booking-form__result-text">Thank you for your enquiry. We will get back to you shortly.</p>
+              <button type="button" class="booking-form__result-btn" data-action="close-modal">CLOSE</button>
+            </div>
+
+            <div class="booking-form__result booking-form__result--fail" style="display:none;">
+              <div class="booking-form__result-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="#c1121f" stroke-width="2"/><path d="M22 22l20 20M42 22L22 42" stroke="#c1121f" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+              </div>
+              <h2 class="booking-form__result-title">Something Went Wrong</h2>
+              <p class="booking-form__result-text">We couldn't process your request. Please try again.</p>
+              <button type="button" class="booking-form__result-btn" data-action="try-again">TRY AGAIN</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Modal 2 -->
+    <div id="modal-booking-2" class="slide-modal">
+      <button class="slide-modal__close">
+        <i class="icon-close"></i>
+      </button>
+      <div class="slide-modal__content container-center">
+        <div class="slide-modal__body text-start booking-modal">
+          <div class="container">
+            <div class="booking-modal__header">
+              <h1 class="booking-modal__title">FOR YOUR BOOKING</h1>
+            </div>
+
+            <form id="bookingForm2" class="booking-form" data-post-request="https://www.test.com/bookingForm2">
+              <div class="booking-form__fields">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking2-name">Your Name</label>
+                    <input type="text" id="booking2-name" name="name" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="booking2-email">Your Email</label>
+                    <input type="email" id="booking2-email" name="email" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="booking2-phone">Your Phone</label>
+                    <input type="tel" id="booking2-phone" name="phone" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="booking-form__bottom">
+                <div class="booking-form__bottom-item">
+                  <label for="booking2-arrival">Arrival:</label>
+                  <input type="date" id="booking2-arrival" name="arrival_date" class="form-control" />
+                </div>
+                <div class="booking-form__bottom-item">
+                  <label>Adult:</label>
+                  <div class="booking-form__counter">
+                    <button type="button" class="booking-form__counter-btn" data-action="decrease" data-target="adult-count-2">−</button>
+                    <span class="booking-form__counter-value" id="adult-count-2">1</span>
+                    <button type="button" class="booking-form__counter-btn" data-action="increase" data-target="adult-count-2">+</button>
+                    <input type="hidden" name="adults" value="1" />
+                  </div>
+                </div>
+                <div class="booking-form__bottom-item">
+                  <label>Child:</label>
+                  <div class="booking-form__counter">
+                    <button type="button" class="booking-form__counter-btn" data-action="decrease" data-target="child-count-2">−</button>
+                    <span class="booking-form__counter-value" id="child-count-2">0</span>
+                    <button type="button" class="booking-form__counter-btn" data-action="increase" data-target="child-count-2">+</button>
+                    <input type="hidden" name="children" value="0" />
+                  </div>
+                </div>
+                <div class="booking-form__bottom-item">
+                  <button type="submit" class="booking-form__submit">BUY NOW</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="booking-form__result booking-form__result--success" style="display:none;">
+              <div class="booking-form__result-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="#2d6a4f" stroke-width="2"/><path d="M20 33l8 8 16-18" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <h2 class="booking-form__result-title">Booking Sent Successfully</h2>
+              <p class="booking-form__result-text">Thank you for your enquiry. We will get back to you shortly.</p>
+              <button type="button" class="booking-form__result-btn" data-action="close-modal">CLOSE</button>
+            </div>
+
+            <div class="booking-form__result booking-form__result--fail" style="display:none;">
+              <div class="booking-form__result-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="#c1121f" stroke-width="2"/><path d="M22 22l20 20M42 22L22 42" stroke="#c1121f" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+              </div>
+              <h2 class="booking-form__result-title">Something Went Wrong</h2>
+              <p class="booking-form__result-text">We couldn't process your request. Please try again.</p>
+              <button type="button" class="booking-form__result-btn" data-action="try-again">TRY AGAIN</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="assets/js/house-of-gio.min.js"></script>
   </body>
